@@ -4,7 +4,6 @@ const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/a
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
-
 const router = Router();
 
 // Crear un nuevo usuario
@@ -25,10 +24,9 @@ router.post( '/', [
 // Validar y revalidar token
 router.get( '/renew', validarJWT , revalidarToken );
 
-
-
-
-
+// PLANES DE ESTUDIO 
+var PlanEstudiosCtrl = require('../controllers/planEstudiosCtrl');
+router.get('/PlanEstudios', PlanEstudiosCtrl.getPlanEstudios);
 
 
 module.exports = router;

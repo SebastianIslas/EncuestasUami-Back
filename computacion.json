@@ -1,0 +1,74 @@
+{
+    "Computacion": [
+        {
+            "nombre_UEA": "ARTE Y CIENCIA",
+            "cupo": 20,
+            "clave": 2000001,
+            "turno": "mañana",
+            "modalidad": "presencial"
+        },
+        {
+            "nombre_UEA": "ECOLOGIA Y ECONOMIA",
+            "cupo": 25,
+            "clave": 2000003,
+            "turno": "tarde",
+            "modalidad": "presencial"
+        },
+        {
+            "nombre_UEA": "HISTORIA Y SITUACION ACTUAL DEL AGUA EN EL VALLE DE MEXICO",
+            "cupo": 30,
+            "clave": 2000004,
+            "turno": "tarde",
+            "modalidad": "presencial"
+        },
+        {
+            "nombre_UEA": "METODO EXPERIMENTAL I",
+            "cupo": 30,
+            "clave": 2100001,
+            "turno": "mañana",
+            "modalidad":"presencial"
+        },
+        {
+            "nombre_UEA": "LABORATORIO DE SIMULACION",
+            "cupo": 25,
+            "clave": 2100002,
+            "turno": "mañana",
+            "modalidad":"virtual"
+        },
+        {
+            "nombre_UEA": "METODO EXPERIMENTAL II",
+            "cupo": 25,
+            "clave": 2100003,
+            "turno": "mañana",
+            "modalidad":"presencial"
+        },
+        {
+            "nombre_UEA": "CURSOS COMPLEMENTARIOS",
+            "cupo": 30,
+            "clave": 2100005,
+            "turno": "tarde",
+            "modalidad":"virtual"
+        },
+        {
+            "nombre_UEA": "ELECTRICIDAD Y MAGNETISMO ELEMENTAL I",
+            "cupo": 30,
+            "clave": 2110018,
+            "turno": "tarde",
+            "modalidad":"virtual"
+        },
+        {
+            "nombre_UEA": "MECANICA ELEMENTAL I",
+            "cupo": 30,
+            "clave": 2110019,
+            "turno": "tarde",
+            "modalidad":"presencial"
+        },
+        {
+            "nombre_UEA": "MECANICA ELEMENTAL II",
+            "cupo": 30,
+            "clave": 2110020,
+            "turno": "mañana",
+            "modalidad":"virtual"
+        }
+    ]
+}
