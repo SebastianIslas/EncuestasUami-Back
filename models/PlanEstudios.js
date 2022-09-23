@@ -1,21 +1,16 @@
 const { Schema, model } = require('mongoose');
 
 const PlanEstudiosSchema = Schema({
-    nombre_UEA: {
-        type: String
-    },
-    cupo : {
+    claveCarrera:{
         type: Number
     },
-    clave: {
-        type: Number
-    },
-    turno: {
+    nombreCarrera:{
         type: String
     },
-    modalidad: {
-        type: String
-    },
+    materias: {
+        type:Object
+    }
+
 });
 
 module.exports = model('PlanEstudios', PlanEstudiosSchema );

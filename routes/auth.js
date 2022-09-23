@@ -27,6 +27,8 @@ router.get( '/renew', validarJWT , revalidarToken );
 // PLANES DE ESTUDIO 
 var PlanEstudiosCtrl = require('../controllers/planEstudiosCtrl');
 router.get('/PlanEstudios', PlanEstudiosCtrl.getPlanEstudios);
+router.delete('/PlanEstudios',PlanEstudiosCtrl.deleteMateraPlanEstudio);
+router.post('/PlanEstudios', PlanEstudiosCtrl.postAgregarMateraAPlanEstudio);
 
 
 module.exports = router;

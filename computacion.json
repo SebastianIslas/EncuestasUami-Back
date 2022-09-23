@@ -1,74 +1,52 @@
 {
-    "Computacion": [
+    "claveCarrera" :30 ,
+    "nombreCarrera":"electronica",
+    "materias" :[
         {
-            "nombre_UEA": "ARTE Y CIENCIA",
-            "cupo": 20,
-            "clave": 2000001,
-            "turno": "mañana",
-            "modalidad": "presencial"
+            "nombre": "ARTE Y CIENCIA",
+            "claveUEA": 201
+
         },
         {
-            "nombre_UEA": "ECOLOGIA Y ECONOMIA",
-            "cupo": 25,
-            "clave": 2000003,
-            "turno": "tarde",
-            "modalidad": "presencial"
+            "nombre": "ECOLOGIA Y ECONOMIA",
+            "claveUEA": 2000003
         },
         {
-            "nombre_UEA": "HISTORIA Y SITUACION ACTUAL DEL AGUA EN EL VALLE DE MEXICO",
-            "cupo": 30,
-            "clave": 2000004,
-            "turno": "tarde",
-            "modalidad": "presencial"
+            "nombre": "HISTORIA Y SITUACION ACTUAL DEL AGUA EN EL VALLE DE MEXICO",
+            "claveUEA": 2000004
         },
         {
-            "nombre_UEA": "METODO EXPERIMENTAL I",
-            "cupo": 30,
-            "clave": 2100001,
-            "turno": "mañana",
-            "modalidad":"presencial"
+            "nombre": "METODO EXPERIMENTAL I",
+            "claveUEA": 2100001
         },
         {
-            "nombre_UEA": "LABORATORIO DE SIMULACION",
-            "cupo": 25,
-            "clave": 2100002,
-            "turno": "mañana",
-            "modalidad":"virtual"
+            "nombre": "LABORATORIO DE SIMULACION",
+            "claveUEA": 2100002
+            
         },
         {
-            "nombre_UEA": "METODO EXPERIMENTAL II",
-            "cupo": 25,
-            "clave": 2100003,
-            "turno": "mañana",
-            "modalidad":"presencial"
+            "nombre": "METODO EXPERIMENTAL II",
+            "claveUEA": 2100003
         },
         {
-            "nombre_UEA": "CURSOS COMPLEMENTARIOS",
-            "cupo": 30,
-            "clave": 2100005,
-            "turno": "tarde",
-            "modalidad":"virtual"
+            "nombre": "CURSOS COMPLEMENTARIOS",
+           
+            "claveUEA": 2100005
         },
         {
-            "nombre_UEA": "ELECTRICIDAD Y MAGNETISMO ELEMENTAL I",
-            "cupo": 30,
-            "clave": 2110018,
-            "turno": "tarde",
-            "modalidad":"virtual"
+            "nombre": "ELECTRICIDAD Y MAGNETISMO ELEMENTAL I",
+            "claveUEA": 2110018
         },
         {
-            "nombre_UEA": "MECANICA ELEMENTAL I",
-            "cupo": 30,
-            "clave": 2110019,
-            "turno": "tarde",
-            "modalidad":"presencial"
+            "nombre": "MECANICA ELEMENTAL I",
+            "claveUEA": 2110019
+          
         },
         {
-            "nombre_UEA": "MECANICA ELEMENTAL II",
-            "cupo": 30,
-            "clave": 2110020,
-            "turno": "mañana",
-            "modalidad":"virtual"
+            "nombre": "MECANICA ELEMENTAL II",
+            "claveUEA": 2110020
+          
         }
     ]
+    
 }
