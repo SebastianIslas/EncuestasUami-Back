@@ -36,7 +36,7 @@ var controller = {
 				materias: {
 					$each: [
 						{
-							nombreUEA: nombreUEA,
+							nombre: nombreUEA,
 							claveUEA: claveUEA,
 						},
 					],
@@ -71,10 +71,12 @@ var controller = {
 	deleteMateraPlanEstudio: function (req, res) {
 		let claveCarrera = req.body.clave_carrera;
 		let claveUEA = req.body.clave;
+                
+// db.planestudios.update({claveCarrera: 30}, {$pull: { materias: {claveUEA: 201}}}, false, true)
 
 		var update = {
 			$pull: {
-				'materias.claveUEA': claveUEA,
+				materias: {claveUEA: claveUEA},
 			},
 		};
 		console.log({ update });
@@ -82,8 +84,9 @@ var controller = {
 		console.log({uea});
 
 		if(uea){
-			PlanEstudios.findOneAndDelete(
-				update,
+			PlanEstudios.update(
+                                {claveCarrera: claveCarrera}, 
+                                update,
 				(err, cuestionarioUpdated) => {
 					if (err) {
 						//console.log("errrrrreeer");
