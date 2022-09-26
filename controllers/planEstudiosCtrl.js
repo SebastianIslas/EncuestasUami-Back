@@ -6,110 +6,127 @@ const res = require("express/lib/response");
 var PlanEstudios = require("../models/PlanEstudios");
 
 var controller = {
-    getPlanEstudios: function(req, res){
+	getPlanEstudios: function (req, res) {
 		let claveCarrera = req.body.claveCarrera;
 		console.log("clave carrera b", claveCarrera);
 		var query = {
-			claveCarrera:claveCarrera 
-		  };
-		console.log({query}); 
+			claveCarrera: claveCarrera
+		};
+		console.log({ query });
 		PlanEstudios.findOne(query).exec((err, result) => {
-			if(err)
-				return res.status(500).send({message: 'Error con Mongo.'});
+			if (err)
+				return res.status(500).send({ message: 'Error con Mongo.' });
 
-			if(!result){
-                console.log({result});
-				return res.status(404).send({message: 'No hay Planes de estudio que mostrar.'});
-            }
-            console.log(result);
-            return res.status(200).send(result);
+			if (!result) {
+				console.log({ result });
+				return res.status(404).send({ message: 'No hay Planes de estudio que mostrar.' });
+			}
+			console.log(result);
+			return res.status(200).send(result);
 		});
 	},
 
-	postAgregarMateraAPlanEstudio: function(req,res){
+	postAgregarMateraAPlanEstudio: function (req, res) {
 		let claveCarrera = req.body.clave_carrera;
 		let nombreUEA = req.body.nombre_UEA;
 		let claveUEA = req.body.clave;
 		var query = { claveCarrera: claveCarrera }
 		var update = {
 			$push: {
-			  materias: {
-				$each: [
-				  {
-					nombreUEA: nombreUEA,
-					claveUEA: claveUEA,
-				  },
-				],
-			  },
+				materias: {
+					$each: [
+						{
+							nombreUEA: nombreUEA,
+							claveUEA: claveUEA,
+						},
+					],
+				},
 			},
-		  };
+		};
 
-		  PlanEstudios.updateOne(
+		PlanEstudios.updateOne(
 			query,
 			update,
 			{ new: true },
 			(err, cuestionarioUpdated) => {
-			  if (err) {
-				//console.log("errrrrreeer");
-				return res.status(500).send({ message: "Error en Mongo." });
-			  }
-			  if (cuestionarioUpdated == null) {
-				//console.log("NULLL");
-				return res.status(404).send({
-				  message: "No existe el Cuestionario. No se pudo actualizar.",
-				});
-			  } else {
-				return res.status(200).send({ message : "Se actualizo"});
-			  }
+				if (err) {
+					//console.log("errrrrreeer");
+					return res.status(500).send({ message: "Error en Mongo." });
+				}
+				if (cuestionarioUpdated == null) {
+					//console.log("NULLL");
+					return res.status(404).send({
+						message: "No existe el Cuestionario. No se pudo actualizar.",
+					});
+				} else {
+					return res.status(200).send({ message: "Se actualizo" });
+				}
 			}
-		  );
+		);
 
 
 	},
-	deleteMateraPlanEstudio: function(req,res){
+
+
+	deleteMateraPlanEstudio: function (req, res) {
 		let claveCarrera = req.body.clave_carrera;
 		let claveUEA = req.body.clave;
-		var query = { claveCarrera: claveCarrera }
+
 		var update = {
 			$pull: {
-			  'materias.claveUEA':  claveUEA,
-
+				'materias.claveUEA': claveUEA,
 			},
-		  };
-		  console.log({update});
-		  PlanEstudios.updateOne(
-			
+		};
+		console.log({ update });
+		let uea = PlanEstudios.find({ claveCarrera: claveCarrera });
+		console.log({uea});
+
+		if(uea){
+			PlanEstudios.findOneAndDelete(
+				update,
+				(err, cuestionarioUpdated) => {
+					if (err) {
+						//console.log("errrrrreeer");
+						return res.status(500).send({ message: "Error en Mongo." });
+					}
+					if (cuestionarioUpdated == null) {
+						//console.log("NULLL");
+						return res.status(404).send({
+							message: "No existe la UEA a eliminar.",
+						});
+					} else {
+						return res.status(200).send(cuestionarioUpdated);
+					}
+				}
+			);
+		}else{
+			return res.status(404).send({
+				message: "No existe el Plan de Estudios con esa clave.",
+			});
+		}
+
+        
+		/* PlanEstudios.updateOne(
+			uea,
 			update,
-			
+
 			(err, cuestionarioUpdated) => {
-			  if (err) {
-				//console.log("errrrrreeer");
-				return res.status(500).send({ message: "Error en Mongo." });
-			  }
-			  if (cuestionarioUpdated == null) {
-				//console.log("NULLL");
-				return res.status(404).send({
-				  message: "No existe el Cuestionario. No se pudo actualizar.",
-				});
-			  } else {
-				return res.status(200).send(cuestionarioUpdated);
-			  }
+				if (err) {
+					//console.log("errrrrreeer");
+					return res.status(500).send({ message: "Error en Mongo." });
+				}
+				if (cuestionarioUpdated == null) {
+					//console.log("NULLL");
+					return res.status(404).send({
+						message: "No existe el Cuestionario. No se pudo actualizar.",
+					});
+				} else {
+					return res.status(200).send(cuestionarioUpdated);
+				}
 			}
-		  );
-
-
-
+		); */
 	},
 
-
-
-
-
-
-
-
-	
-	
 
 };
 
