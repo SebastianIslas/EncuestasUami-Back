@@ -6,26 +6,39 @@ const res = require("express/lib/response");
 var PlanEstudios = require("../models/PlanEstudios");
 
 var controller = {
+
+	/**
+	 * [ HTTP | GET ]
+	 * Funcion que obtiene todas las materias pertenecientes a un plan de estudios.
+	 * 
+	 * Parametros: 
+	 * 	- claveCarrera
+	 */
 	getPlanEstudios: function (req, res) {
 		let claveCarrera = req.body.claveCarrera;
-		console.log("clave carrera b", claveCarrera);
 		var query = {
 			claveCarrera: claveCarrera
 		};
-		console.log({ query });
 		PlanEstudios.findOne(query).exec((err, result) => {
 			if (err)
-				return res.status(500).send({ message: 'Error con Mongo.' });
-
+				return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
 			if (!result) {
-				console.log({ result });
 				return res.status(404).send({ message: 'No hay Planes de estudio que mostrar.' });
 			}
-			console.log(result);
 			return res.status(200).send(result);
 		});
 	},
 
+	/**
+	 * [ HTTP | POST ]
+	 * Funcion que agrega una materia a un plan de estudios en particular
+	 * 
+	 * Parametros: 
+	 * 	- clave_carrera      / solicitar revicion claveCarrera =! clave_carrera /
+	 * 	- nombre_UEA
+	 * 	- claveUEA
+	 *  
+	 */
 	postAgregarMateraAPlanEstudio: function (req, res) {
 		let claveCarrera = req.body.clave_carrera;
 		let nombreUEA = req.body.nombre_UEA;
@@ -48,18 +61,16 @@ var controller = {
 			query,
 			update,
 			{ new: true },
-			(err, cuestionarioUpdated) => {
+			(err, plandDeEstudiosUpdated) => {
 				if (err) {
-					//console.log("errrrrreeer");
-					return res.status(500).send({ message: "Error en Mongo." });
+					return res.status(500).send({ message: "! Error en la base de datos !" });
 				}
-				if (cuestionarioUpdated == null) {
-					//console.log("NULLL");
+				if (plandDeEstudiosUpdated == null) {
 					return res.status(404).send({
-						message: "No existe el Cuestionario. No se pudo actualizar.",
+						message: "No se encontro el plan de estudios a modificar.",
 					});
 				} else {
-					return res.status(200).send({ message: "Se actualizo" });
+					return res.status(200).send({ message: "El plan de estudios ha sido actualizado de manera correcta" });
 				}
 			}
 		);
@@ -67,13 +78,18 @@ var controller = {
 
 	},
 
+	/**
+	 * [ HTTP | DELETE ]
+	 * Funcion que elimina una materia de un plan de estudios en particular
+	 * 
+	 * Parametros: 
+	 *	- clave_carrera      / solicitar revicion claveCarrera =! clave_carrera /
+	 * 	- clave 
+	 */
 
 	deleteMateraPlanEstudio: function (req, res) {
 		let claveCarrera = req.body.clave_carrera;
 		let claveUEA = req.body.clave;
-                
-// db.planestudios.update({claveCarrera: 30}, {$pull: { materias: {claveUEA: 201}}}, false, true)
-
 		var update = {
 			$pull: {
 				materias: {claveUEA: claveUEA},
@@ -89,16 +105,14 @@ var controller = {
                                 update,
 				(err, cuestionarioUpdated) => {
 					if (err) {
-						//console.log("errrrrreeer");
-						return res.status(500).send({ message: "Error en Mongo." });
+						return res.status(500).send({ message: "! Error en la base de datos !" });
 					}
 					if (cuestionarioUpdated == null) {
-						//console.log("NULLL");
 						return res.status(404).send({
 							message: "No existe la UEA a eliminar.",
 						});
 					} else {
-						return res.status(200).send(cuestionarioUpdated);
+						return res.status(200).send({message: "Se elimino la materia de la base de datos."});
 					}
 				}
 			);
@@ -108,26 +122,6 @@ var controller = {
 			});
 		}
 
-        
-		/* PlanEstudios.updateOne(
-			uea,
-			update,
-
-			(err, cuestionarioUpdated) => {
-				if (err) {
-					//console.log("errrrrreeer");
-					return res.status(500).send({ message: "Error en Mongo." });
-				}
-				if (cuestionarioUpdated == null) {
-					//console.log("NULLL");
-					return res.status(404).send({
-						message: "No existe el Cuestionario. No se pudo actualizar.",
-					});
-				} else {
-					return res.status(200).send(cuestionarioUpdated);
-				}
-			}
-		); */
 	},
 
 

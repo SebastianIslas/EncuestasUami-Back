@@ -6,7 +6,7 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
-// Crear un nuevo usuario
+// Crear un nuevo usuario EN DESARROLLO
 router.post( '/new', [
     check('name', 'El nombre es obligatorio').not().isEmpty(),
     check('email', 'El email es obligatorio').isEmail(),
@@ -14,7 +14,7 @@ router.post( '/new', [
     validarCampos
 ], crearUsuario );
 
-// Login de usuario
+// Login de usuario EN DESARROLLO
 router.post( '/', [
     check('email', 'El email es obligatorio').isEmail(),
     check('password', 'La contraseña es obligatoria').isLength({ min: 6 }),
@@ -24,11 +24,20 @@ router.post( '/', [
 // Validar y revalidar token
 router.get( '/renew', validarJWT , revalidarToken );
 
-// PLANES DE ESTUDIO 
+
+/**
+ * Rutas pertenecientes al modelo PlanEstudios
+ *  -Rutas: 
+ *      - [ HTTP | POST ] Obtiene los datos de estudio de una carrera          /    Cambiar a [ HTTP | GET ]  /
+ *      - [ HTTP | POST ] Agrega una materia a un plan de estudios en particular
+ *      - [ HTTP | DELETE ] Borra una materia de un plan de estudios de una carrera
+ *      
+ * 
+ * 
+ */
 var PlanEstudiosCtrl = require('../controllers/planEstudiosCtrl');
 router.post('/PlanEstudios', PlanEstudiosCtrl.getPlanEstudios);
-router.delete('/PlanEstudios',PlanEstudiosCtrl.deleteMateraPlanEstudio);
 router.post('/PlanEstudio', PlanEstudiosCtrl.postAgregarMateraAPlanEstudio);
-
+router.delete('/PlanEstudios',PlanEstudiosCtrl.deleteMateraPlanEstudio);
 
 module.exports = router;
