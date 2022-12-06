@@ -1,21 +1,21 @@
 const { Schema, model } = require('mongoose');
 
-
-const UsuarioSchema = Schema({
-    
+const AlumnoSchema = Schema({
+    id: {
+        type: Number
+    },
     matricula: {
+        type: Number
+    },
+    claveCarrera: {
+        type: String
+    },
+    email: {
         type: String
     },
     password: {
         type: String
     },
-    tipo_usuario: {
-        type: String
-    },
-    carrera: {
-        type: String
-    },
-    
 });
 
-module.exports = model('Usuario', UsuarioSchema );
+module.exports = model('Alumno', AlumnoSchema );
