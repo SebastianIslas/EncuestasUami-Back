@@ -4,6 +4,9 @@ const EncuestaResueltaSchema = Schema({
   id: {
     type: Number
   },
+  matriculaAlumno: {
+    type: Number
+  },
   cursosSeleccionados:
     [
       {
