@@ -9,8 +9,10 @@ const LicenciaturaSchema = Schema({
   clave: {
     type: Number
   },
-  planesEstudio: [ PlanEstudios ],
-  encuestas: [ Encuesta ]
+  // Array de id de los planes de estudios
+  planesEstudio: [ Schema.Types.ObjectId ],
+  // Array de los id de las encuestas relacionadas
+  encuestas: [ Schema.Types.ObjectId ]
 });
 
 module.exports = model('Licenciatura', LicenciaturaSchema );

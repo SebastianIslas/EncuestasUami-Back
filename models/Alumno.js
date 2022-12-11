@@ -1,9 +1,6 @@
 const { Schema, model } = require('mongoose');
 
 const AlumnoSchema = Schema({
-  id: {
-    type: Number
-  },
   matricula: {
     type: Number
   },
@@ -16,6 +13,8 @@ const AlumnoSchema = Schema({
   password: {
     type: String
   },
+  // Array con el Id de las encuestas resueltas por este alumno
+  encuestasResueltas: [ Schema.Types.ObjectId ]
 });
 
 module.exports = model('Alumno', AlumnoSchema );

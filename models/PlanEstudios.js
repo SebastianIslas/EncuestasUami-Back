@@ -3,12 +3,10 @@ import Curso from './Curso';
 const { Schema, model } = require('mongoose');
 
 const PlanEstudiosSchema = Schema({
-  id: {
-    type: Number
-  },
   version: {
     type: String
   },
+  // Lista de cursos que pertenencen al plan de estudios
   cursos: [ Curso ]
 });
 

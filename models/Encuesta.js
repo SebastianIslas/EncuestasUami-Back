@@ -3,9 +3,6 @@ import EncuestaResuelta from './EncuestaResuelta';
 const { Schema, model } = require('mongoose');
 
 const EncuestaSchema = Schema({
-  id: {
-    type: Number
-  },
   clavePlan: {
     type: String
   },
@@ -16,7 +13,8 @@ const EncuestaSchema = Schema({
     type: Boolean,
     default: False
   },
-  encuestasResueltas: [ EncuestaResuelta ]
+  // Array de los id de las encuestas relacionadas
+  encuestasResueltas: [ Schema.Types.ObjectId ]
 });
 
 module.exports = model('Encuesta', EncuestaSchema );
