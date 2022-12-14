@@ -1,5 +1,3 @@
-import Curso from './Curso';
-
 const { Schema, model } = require('mongoose');
 
 const PlanEstudiosSchema = Schema({
@@ -9,7 +7,12 @@ const PlanEstudiosSchema = Schema({
   version: {
     type: String
   },
-  cursos: [ Curso ]
+  cursos: [ {
+    type: Schema.Types.ObjectId,
+    ref: 'Curso'
+  } ]
+}, {
+  versionKey: false 
 });
 
 module.exports = model('PlanEstudios', PlanEstudiosSchema );

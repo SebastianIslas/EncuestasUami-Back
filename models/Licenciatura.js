@@ -1,5 +1,3 @@
-import PlanEstudios from './PlanEstudios';
-
 const { Schema, model } = require('mongoose');
 
 const LicenciaturaSchema = Schema({
@@ -9,8 +7,14 @@ const LicenciaturaSchema = Schema({
   clave: {
     type: Number
   },
-  planesEstudio: [ PlanEstudios ],
-  encuestas: [ Encuesta ]
+  planesEstudio: [ {
+    type: Schema.Types.ObjectId,
+    ref: 'PlanEstudios'} 
+  ],
+  encuestas: [ {
+    type: Schema.Types.ObjectId,
+    ref: 'Encuesta'
+  } ]
 });
 
 module.exports = model('Licenciatura', LicenciaturaSchema );

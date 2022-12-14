@@ -10,8 +10,9 @@ const EncuestaResueltaSchema = Schema({
   cursosSeleccionados:
     [
       {
-        claveCurso: { 
-          type: String
+        curso: { 
+          type: Schema.Types.ObjectId,
+          ref: 'Curso'
         },
         modalidad: { 
           type: String,
