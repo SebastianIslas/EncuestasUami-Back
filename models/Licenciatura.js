@@ -11,10 +11,10 @@ const LicenciaturaSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: 'PlanEstudios'} 
   ],
-  encuestas: [ {
-    type: Schema.Types.ObjectId,
-    ref: 'Encuesta'
-  } ]
+  //encuestas: [ {
+  //  type: Schema.Types.ObjectId,
+  // ref: 'Encuesta'
+  //} ]
 });
 
 module.exports = model('Licenciatura', LicenciaturaSchema );

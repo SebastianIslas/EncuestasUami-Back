@@ -1,15 +1,17 @@
 const { Schema, model } = require('mongoose');
+// importar el alumno, no usar la matricula
 
 const EncuestaResueltaSchema = Schema({
-  id: {
-    type: Number
-  },
-  matriculaAlumno: {
-    type: Number
-  },
+  //Id el de mongo,
+
+  //alumno:{ Schema.Types.ObjectId, ref: 'Alumno' },
+  //encuesta:{ Schema.Types.ObjectId, ref: 'Encuesta' },
+
   cursosSeleccionados:
     [
       {
+        //Cambiar la relacion en el modelo DDD
+        //Esto está bien
         curso: { 
           type: Schema.Types.ObjectId,
           ref: 'Curso'

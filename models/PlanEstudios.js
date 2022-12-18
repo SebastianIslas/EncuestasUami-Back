@@ -10,7 +10,13 @@ const PlanEstudiosSchema = Schema({
   cursos: [ {
     type: Schema.Types.ObjectId,
     ref: 'Curso'
+  } ],
+
+  encuestas: [ {
+    type: Schema.Types.ObjectId,
+   ref: 'Encuesta'
   } ]
+  
 }, {
   versionKey: false 
 });
