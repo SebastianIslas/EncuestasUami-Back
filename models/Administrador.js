@@ -1,11 +1,13 @@
 const { Schema, model } = require('mongoose');
 
 const AdministradorSchema = Schema({
-  id: {
-    type: Number
+  numEmpleado: {
+    type: Number,
+    unique: true
   },
   email: {
-    type: String
+    type: String,
+    unique: true
   },
   password: {
     type: String

@@ -1,3 +1,9 @@
+/* 
+
+
+// ELIMINAR DESPUES DE LA SESION CON EL PROFESOR
+
+
 const { Schema, model } = require('mongoose');
 
 const PlanEstudiosSchema = Schema({
@@ -22,3 +28,5 @@ const PlanEstudiosSchema = Schema({
 });
 
 module.exports = model('PlanEstudios', PlanEstudiosSchema );
+
+*/

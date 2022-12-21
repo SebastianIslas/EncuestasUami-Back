@@ -2,19 +2,28 @@ const { Schema, model } = require('mongoose');
 
 const LicenciaturaSchema = Schema({
   nombre: {
-    type: String
+    type: String,
+    unique: true
   },
+  
+  // ID que le da la UAM a la lic
   clave: {
-    type: Number
+    type: Number,
+    unique: true
   },
-  planesEstudio: [ {
+
+  cursos: [ {
     type: Schema.Types.ObjectId,
-    ref: 'PlanEstudios'} 
-  ],
-  //encuestas: [ {
-  //  type: Schema.Types.ObjectId,
-  // ref: 'Encuesta'
-  //} ]
+    ref: 'Curso'
+  } ],
+
+  encuestas: [ {
+    type: Schema.Types.ObjectId,
+  ref: 'Encuesta'
+  } ]
+
+},{
+  versionKey: false 
 });
 
 module.exports = model('Licenciatura', LicenciaturaSchema );

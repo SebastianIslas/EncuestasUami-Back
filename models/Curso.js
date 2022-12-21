@@ -1,12 +1,13 @@
 const { Schema, model } = require('mongoose');
-const PlanEstudios = require("./PlanEstudios");
+const Licenciatura = require("./Licenciatura");
 
 const CursoSchema = Schema({
   nombre: {
     type: String
   },
   clave: {
-    type: Number
+    type: Number,
+    unique: true
   },
   tipo: {
     type: String,
@@ -20,7 +21,7 @@ const CursoSchema = Schema({
 CursoSchema.post('findOneAndDelete',  function(doc) {
   console.log(doc)
   console.log('%s has been removed', doc._id);
-  PlanEstudios.updateOne( { id: 0  }, {
+  Licenciatura.updateOne( { id: 0  }, {
     $pullAll: { cursos: [ doc._id ] },
   }).exec((err, res) => {
     console.log(err)

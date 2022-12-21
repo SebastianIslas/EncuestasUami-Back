@@ -12,17 +12,13 @@ const EncuestaSchema = Schema({
     ref: 'Licenciatura'
   } ],
 
-  /*
-      plan: [ {
-        type: Schema.Types.ObjectId,
-        ref: 'PlanEstudios'
-      } ],
+  /* 
+    // Solamente hay un plan de estudio por licenciatura!! 
+    plan: {
+      type: Schema.Types.ObjectId,
+      ref: 'PlanEstudios'
+    },
   */
-
-  plan: {
-    type: Schema.Types.ObjectId,
-    ref: 'PlanEstudios'
-  },
 
   maxMaterias: {
     type: Number
@@ -31,6 +27,7 @@ const EncuestaSchema = Schema({
     type: Boolean,
     default: False
   },
+  
   encuestasResueltas: [ {
     type: Schema.Types.ObjectId,
     ref: 'EncuestaResuelta'

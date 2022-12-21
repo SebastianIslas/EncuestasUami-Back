@@ -1,17 +1,22 @@
 const { Schema, model } = require('mongoose');
 
 const AlumnoSchema = Schema({
+
   matricula: {
-    type: Number
+    type: Number,
+    unique: true
   },
-  // Relacionarlo con el plan porque son subversiones de la carrera
-  // plan :{ Schema.Types.ObjectId, ref: 'PlanEstudios' },
-  claveCarrera: {
-    type: String
-  },
+
+  carrera: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'Licenciatura' 
+  }, // populate(clave) 
+  
   email: {
-    type: String
+    type: String,
+    unique: true
   },
+  
   password: {
     type: String
   },
