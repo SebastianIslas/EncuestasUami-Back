@@ -35,12 +35,11 @@ router.get( '/renew', validarJWT , revalidarToken );
  * 
  * 
  */
-var PlanEstudiosCtrl = require('../controllers/planEstudiosCtrl');
-router.post('/PlanEstudios', PlanEstudiosCtrl.getPlanEstudios);
+var PlanEstudiosCtrl = require('../controllers/licenciaturaCtrl');
+router.post('/PlanEstudios', PlanEstudiosCtrl.getLicenciatura);
 router.post('/Cursos', PlanEstudiosCtrl.getCursos);
-router.post('/addCurso', PlanEstudiosCtrl.postAgregarMateriaAPlanEstudio);
-router.delete('/del',PlanEstudiosCtrl.deleteMateriaPlanEstudio);
-router.delete('/test',PlanEstudiosCtrl.deleteTest);
-router.delete('/test2',PlanEstudiosCtrl.deleteSolo);
+router.post('/addCurso', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
+router.delete('/del',PlanEstudiosCtrl.removeCursoFromLicenciatura);
+router.delete('/delSol',PlanEstudiosCtrl.deleteTest);
 
 module.exports = router;
