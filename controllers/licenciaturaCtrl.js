@@ -99,17 +99,16 @@ const { query } = require("express");
 	
 	 // Remueve el curso asociado a una licenciatura ( de la lista de licenciaturas )
 	removeCursoFromLicenciatura: function (req, res) {
-		let clavePlan = req.body.clave_plan;
-		let clave = req.body.clave_curso;
-		query = {clave: clave}
-
+		let claveLic = req.body.clave_lic;
+		let claveCurso = req.body.clave_curso;
+                let query = {clave: claveCurso}
 		Curso.findOne(query).exec((err, curso) => {
 			if (err)
 				return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
 			if (!curso) {
 				return res.status(404).send({ message: 'No hay Planes de estudio que mostrar.' });
 			}
-			Licenciatura.updateOne( { id: clavePlan }, {
+			Licenciatura.updateOne( { clave: claveLic }, {
 				$pullAll: { cursos: [ curso._id ] },
 			}).exec((err, plan) => {
 					if(err) return res.status(404).send({message: err});
