@@ -40,6 +40,6 @@ router.post('/PlanEstudios', PlanEstudiosCtrl.getLicenciatura);
 router.post('/Cursos', PlanEstudiosCtrl.getCursos);
 router.post('/addCurso', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
 router.delete('/del',PlanEstudiosCtrl.removeCursoFromLicenciatura);
-router.delete('/delSol',PlanEstudiosCtrl.deleteTest);
+router.delete('/delSol',PlanEstudiosCtrl.deleteCurso);
 
 module.exports = router;
