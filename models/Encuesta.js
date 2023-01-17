@@ -3,7 +3,8 @@ const { Schema, model } = require('mongoose');
 const EncuestaSchema = Schema({
   periodo: {
     // 22O, 22I
-    type: String
+    type: String,
+    required: true
   },
 
   // Posiblemente sea bueno quitar esto
@@ -21,17 +22,20 @@ const EncuestaSchema = Schema({
   */
 
   maxMaterias: {
-    type: Number
+    type: Number,
+    required: true
   },
   activo: {
     type: Boolean,
-    default: False
+    default: true
   },
   
   encuestasResueltas: [ {
     type: Schema.Types.ObjectId,
     ref: 'EncuestaResuelta'
   } ]
+},{
+  versionKey: false 
 });
 
 module.exports = model('Encuesta', EncuestaSchema );

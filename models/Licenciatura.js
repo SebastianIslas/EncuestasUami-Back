@@ -3,12 +3,14 @@ const { Schema, model } = require('mongoose');
 const LicenciaturaSchema = Schema({
   nombre: {
     type: String,
+    required: true,
     unique: true
   },
   
   // ID que le da la UAM a la lic
   clave: {
     type: Number,
+    required: true,
     unique: true
   },
 

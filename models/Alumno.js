@@ -4,32 +4,36 @@ const AlumnoSchema = Schema({
 
   matricula: {
     type: Number,
-    unique: true
+    unique: true,
+    required: true
   },
 
   carrera: { 
     type: Schema.Types.ObjectId, 
-    ref: 'Licenciatura' 
-  }, // populate(clave) 
+    ref: 'Licenciatura',
+    required: true 
+  }, 
   
   email: {
     type: String,
-    unique: true
+    unique: true,
+    required: true
   },
   
   password: {
-    type: String
+    type: String,
+    required: true
   },
   
-  EncuestasRess:
+  EncuestasResueltas:
     [
       {
-        eResuelta: { 
-          type: Schema.Types.ObjectId,
-          ref: 'EncuestaResuelta'
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'EncuestaResuelta'
       }
     ]
+},{
+  versionKey: false 
 });
 
 module.exports = model('Alumno', AlumnoSchema );

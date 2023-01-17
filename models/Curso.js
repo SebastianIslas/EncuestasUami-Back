@@ -3,11 +3,13 @@ const Licenciatura = require("./Licenciatura");
 
 const CursoSchema = Schema({
   nombre: {
-    type: String
+    type: String,
+    required: true
   },
   clave: {
     type: Number,
-    unique: true
+    unique: true,
+    required: true
   },
   tipo: {
     type: String,

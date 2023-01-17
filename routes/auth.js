@@ -39,7 +39,19 @@ var PlanEstudiosCtrl = require('../controllers/licenciaturaCtrl');
 router.post('/PlanEstudios', PlanEstudiosCtrl.getLicenciatura);
 router.post('/Cursos', PlanEstudiosCtrl.getCursos);
 router.post('/addCurso', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
+router.post('/appendCurso', PlanEstudiosCtrl.postAgregarMateriaExistenteALicenciatura);
+router.post('/newCurso', PlanEstudiosCtrl.crearCurso);
+router.post('/newLic', PlanEstudiosCtrl.agregarLicenciatura)
 router.delete('/del',PlanEstudiosCtrl.removeCursoFromLicenciatura);
 router.delete('/delSol',PlanEstudiosCtrl.deleteCurso);
+
+var AlumnoCtrl = require('../controllers/alumnoCtrl');
+router.post('/alumno', AlumnoCtrl.getAlumno);
+router.post('/agregarAlm', AlumnoCtrl.agregarAlumno);
+
+var EncuestasCtrl = require('../controllers/encuestasCtrl');
+router.post('/encuesta', EncuestasCtrl.getEncuesta);
+router.post('/abrirEnc', EncuestasCtrl.abrirEncuesta);
+
 
 module.exports = router;

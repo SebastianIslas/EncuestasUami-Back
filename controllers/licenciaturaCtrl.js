@@ -1,4 +1,3 @@
-// <3
 const { query } = require("express");
 		const req = require("express/lib/request");
 		const res = require("express/lib/response");
@@ -25,11 +24,29 @@ const { query } = require("express");
 					if (err)
 						return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
 					if (!result) {
-						return res.status(404).send({ message: 'No hay Planes de estudio que mostrar.' });
+						return res.status(404).send({ message: 'No hay Licenciaturas que mostrar.' });
 					}
 					return res.status(200).send(result);
 				});
 			},
+			agregarLicenciatura: function (req, res) {
+				let nombreLic = req.body.nombreLic
+				let claveLic  = req.body.claveLic 
+				let licenciatura = new Licenciatura ({nombre: nombreLic, clave: claveLic})	
+
+
+				licenciatura.save((err, lic) =>{
+					if (err) {
+						return res.status(500).send({ message: "! Error en la base de datos !" , errorContent: err});
+					}
+					if (lic == null) {
+						return res.status(404).send({message: "No se ha podido agregrar la licenciatura."});
+					} else {
+						return res.status(200).send({ message: "La licenciatura ha sido creada de manera correcta" });
+					}
+				});
+				
+			},        
 
 			getCursos: function (req, res){
 				let claveLic = req.body.claveLic;
@@ -79,13 +96,58 @@ const { query } = require("express");
 					plan.cursos.push(curso);
 					plan.save(function(err) {
 						if (err) return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
-						return res.status(200).send({ message: "El plan de estudios ha sido actualizado de manera correcta" });
+						return res.status(200).send({ message: "La licenciatura ha sido actualizado de manera correcta" });
 					});
 				});
 			}
 		});
 
 	},
+	crearCurso: function (req, res) {
+	    let nombreUEA = req.body.nombre_UEA;
+	    let claveUEA = req.body.clave;
+	    let curso = new Curso ({nombre: nombreUEA,      clave: claveUEA})
+		curso.save((err, curso) =>{
+			if (err) {
+				return res.status(500).send({ message: "! Error en la base de datos !" });
+			}
+			if (curso == null) {
+				return res.status(404).send({
+					message: "No se ha podido agregar el curso.",
+				});
+			} else {
+				return res.status(200).send({ message: "El curso se ha creado de manera correcta" });
+			}
+		});
+	},
+	postAgregarMateriaExistenteALicenciatura: function (req, res) {
+		let claveLic = req.body.claveLic;
+		let claveUEA = req.body.clave;
+		var query = { clave: claveLic }
+			
+
+		Curso.findOne({clave: claveUEA}).exec((err, curso) =>{
+			if (err) {
+				return res.status(500).send({ message: "! Error en la base de datos !" });
+			}
+			if (curso == null) {
+				return res.status(404).send({
+					message: "No se ha podido agregar el curso.",
+				});
+			} else {
+				Licenciatura.findOne(query).exec((err, plan) => {
+					if (err) return res.send(err);
+					plan.cursos.push(curso);
+					plan.save(function(err) {
+						if (err) return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+						return res.status(200).send({ message: "La licenciatura ha sido actualizado de manera correcta" });
+					});
+				});
+			}
+		});
+
+	},
+
 
 	/**
 	 * [ HTTP | DELETE ]
@@ -101,7 +163,8 @@ const { query } = require("express");
 	removeCursoFromLicenciatura: function (req, res) {
 		let claveLic = req.body.clave_lic;
 		let claveCurso = req.body.clave_curso;
-                let query = {clave: claveCurso}
+        let query = {clave: claveCurso}
+		
 		Curso.findOne(query).exec((err, curso) => {
 			if (err)
 				return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
