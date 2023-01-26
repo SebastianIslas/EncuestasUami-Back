@@ -36,22 +36,32 @@ router.get( '/renew', validarJWT , revalidarToken );
  * 
  */
 var PlanEstudiosCtrl = require('../controllers/licenciaturaCtrl');
-router.post('/PlanEstudios', PlanEstudiosCtrl.getLicenciatura);
-router.post('/Cursos', PlanEstudiosCtrl.getCursos);
-router.post('/addCurso', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
-router.post('/appendCurso', PlanEstudiosCtrl.postAgregarMateriaExistenteALicenciatura);
-router.post('/newCurso', PlanEstudiosCtrl.crearCurso);
-router.post('/newLic', PlanEstudiosCtrl.agregarLicenciatura)
-router.delete('/del',PlanEstudiosCtrl.removeCursoFromLicenciatura);
-router.delete('/delSol',PlanEstudiosCtrl.deleteCurso);
+router.post('/admin/materias/crear', PlanEstudiosCtrl.crearCurso);
+router.delete('/admin/materias/eliminar/:clave_materia',PlanEstudiosCtrl.eliminarCurso);
+router.post('/admin/licenciatura/crear', PlanEstudiosCtrl.agregarLicenciatura)
+router.put('/admin/licenciatura/agregarMateriaExistenteALic/:id_lic/:id_Materia', PlanEstudiosCtrl.agregarMateriaExistenteALicenciatura);
+
+// Servicios temporales /////////////////////////////////////////////////////////////////////////////////////////////////
+router.get('/licenciatura/:id_lic', PlanEstudiosCtrl.getLicenciatura);
+router.post('/materia/:id_lic', PlanEstudiosCtrl.getCursos);
+router.post('/admin/licenciatura/agregarYCrearMateriaALic/:id_lic', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
+router.delete('/admin/licenciatura/eliminarMateria',PlanEstudiosCtrl.removeCursoFromLicenciatura);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var AlumnoCtrl = require('../controllers/alumnoCtrl');
-router.post('/alumno', AlumnoCtrl.getAlumno);
-router.post('/agregarAlm', AlumnoCtrl.agregarAlumno);
+router.post('/alumno/crearAlumno', AlumnoCtrl.crearAlumno);
+router.get('/alumno/:matricula', AlumnoCtrl.recuperarAlumno); // Servicio temporal para mostar el alumno
+router.get('/alumno/encuesta/:matricula/:id_licenciatura', AlumnoCtrl.obtenerEncuestAlumno);
 
 var EncuestasCtrl = require('../controllers/encuestasCtrl');
-router.post('/encuesta', EncuestasCtrl.getEncuesta);
-router.post('/abrirEnc', EncuestasCtrl.abrirEncuesta);
+router.post('/administrador/encuesta/iniciar', EncuestasCtrl.iniciarEncuesta);
+router.patch('/administrador/encuesta/desactivar/:periodo', EncuestasCtrl.desactivarEncuesta);
+router.get('/administrador/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta); // Servicio temporal
+
+
+var EncuestasResCtrl = require('../controllers/encuestasResCtrl');
+router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
+router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
 
 
 module.exports = router;

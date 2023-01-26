@@ -16,7 +16,7 @@ const { query } = require("express");
 			 * 	- claveLic
 			 */
 			getLicenciatura: function (req, res) {
-				let claveLic = req.body.claveLic;
+				let claveLic = req.params.id_lic;
 				var query = {
 					clave: claveLic
 				};
@@ -49,7 +49,7 @@ const { query } = require("express");
 			},        
 
 			getCursos: function (req, res){
-				let claveLic = req.body.claveLic;
+				let claveLic = req.params.id_lic;
 				var query = {
 					clave: claveLic
 				};
@@ -76,7 +76,7 @@ const { query } = require("express");
 	 */
 	 
 	postAgregarMateriaALicenciatura: function (req, res) {
-		let claveLic = req.body.claveLic;
+		let claveLic = req.params.id_lic;
 		let nombreUEA = req.body.nombre_UEA;
 		let claveUEA = req.body.clave;
 		var query = { clave: claveLic }
@@ -120,9 +120,9 @@ const { query } = require("express");
 			}
 		});
 	},
-	postAgregarMateriaExistenteALicenciatura: function (req, res) {
-		let claveLic = req.body.claveLic;
-		let claveUEA = req.body.clave;
+	agregarMateriaExistenteALicenciatura: function (req, res) {
+		let claveLic = req.params.id_lic;
+		let claveUEA = req.params.id_Materia;
 		var query = { clave: claveLic }
 			
 
@@ -183,8 +183,8 @@ const { query } = require("express");
 		
 	},
 	// Remueve completamente el curso
-	deleteCurso: function (req, res) {
-		let clave = req.body.clave_curso;
+	eliminarCurso: function (req, res) {
+		let clave = req.params.clave_curso;
 
 		Curso.findOneAndDelete({ clave: clave }).exec((err,curso) =>{
 			if (err) return res.status(404).send({message: 'Ha ocurrido un error'});

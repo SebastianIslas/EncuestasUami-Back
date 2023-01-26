@@ -4,6 +4,7 @@ const EncuestaSchema = Schema({
   periodo: {
     // 22O, 22I
     type: String,
+    unique : true,
     required: true
   },
 
