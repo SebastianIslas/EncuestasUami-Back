@@ -1,18 +1,31 @@
-import PlanEstudios from './PlanEstudios';
-
 const { Schema, model } = require('mongoose');
 
 const LicenciaturaSchema = Schema({
   nombre: {
-    type: String
+    type: String,
+    required: true,
+    unique: true
   },
+  
+  // ID que le da la UAM a la lic
   clave: {
-    type: Number
+    type: Number,
+    required: true,
+    unique: true
   },
-  // Array de id de los planes de estudios
-  planesEstudio: [ Schema.Types.ObjectId ],
-  // Array de los id de las encuestas relacionadas
-  encuestas: [ Schema.Types.ObjectId ]
+
+  cursos: [ {
+    type: Schema.Types.ObjectId,
+    ref: 'Curso'
+  } ],
+
+  encuestas: [ {
+    type: Schema.Types.ObjectId,
+  ref: 'Encuesta'
+  } ]
+
+},{
+  versionKey: false 
 });
 
 module.exports = model('Licenciatura', LicenciaturaSchema );

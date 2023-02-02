@@ -1,20 +1,39 @@
 const { Schema, model } = require('mongoose');
 
 const AlumnoSchema = Schema({
+  
   matricula: {
-    type: Number
+    type: Number,
+    unique: true,
+    required: true
   },
-  claveCarrera: {
-    type: String
-  },
+
+  carrera: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'Licenciatura',
+    required: true 
+  }, 
+  
   email: {
-    type: String
+    type: String,
+    unique: true,
+    required: true
   },
+  
   password: {
-    type: String
+    type: String,
+    required: true
   },
-  // Array con el Id de las encuestas resueltas por este alumno
-  encuestasResueltas: [ Schema.Types.ObjectId ]
+  
+  EncuestasResueltas:
+    [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'EncuestaResuelta'
+      }
+    ]
+},{
+  versionKey: false 
 });
 
 module.exports = model('Alumno', AlumnoSchema );

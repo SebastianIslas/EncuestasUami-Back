@@ -1,20 +1,42 @@
-import EncuestaResuelta from './EncuestaResuelta';
-
 const { Schema, model } = require('mongoose');
 
 const EncuestaSchema = Schema({
-  clavePlan: {
-    type: String
+  periodo: {
+    // 22O, 22I
+    type: String,
+    unique : true,
+    required: true
   },
+
+  // Posiblemente sea bueno quitar esto
+  licenciatura: [ {
+    type: Schema.Types.ObjectId,
+    ref: 'Licenciatura'
+  } ],
+
+  /* 
+    // Solamente hay un plan de estudio por licenciatura!! 
+    plan: {
+      type: Schema.Types.ObjectId,
+      ref: 'PlanEstudios'
+    },
+  */
+
   maxMaterias: {
-    type: Number
+    type: Number,
+    required: true
   },
   activo: {
     type: Boolean,
-    default: False
+    default: true
   },
-  // Array de los id de las encuestas relacionadas
-  encuestasResueltas: [ Schema.Types.ObjectId ]
+  
+  encuestasResueltas: [ {
+    type: Schema.Types.ObjectId,
+    ref: 'EncuestaResuelta'
+  } ]
+},{
+  versionKey: false 
 });
 
 module.exports = model('Encuesta', EncuestaSchema );

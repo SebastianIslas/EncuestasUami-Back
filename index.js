@@ -35,7 +35,7 @@ app.use(bodyParser.text({ type: 'text/html' }))
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Rutas
-app.use( '/api/', require('./routes/auth') );
+app.use( '/api/encuestas/v1/', require('./routes/auth') );
 
 
 app.listen( process.env.PORT, () => {
