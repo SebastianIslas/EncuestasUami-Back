@@ -2,10 +2,11 @@ const { query } = require("express");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
 
-
 const Licenciatura = require("../models/Licenciatura");
 const Alumno = require("../models/Alumno");
 const EncuestaResuelta = require('../models/EncuestaResuelta');
+
+const emailService = require("../helpers/send-email");
 
 var controller = {
             recuperarAlumno: function (req, res) {
@@ -72,8 +73,26 @@ var controller = {
 							error: err
 						});
 					});
+			},
+
+			// Enviar un mensaje de recuperación de contraseña
+			recuperarPassword: function (req, res) {
+				const matricula = req.params.matricula;	
+
+				let emailData = new emailService.emailData(
+					"tonyvaldovinos98@gmail.com",
+					"Mensaje de prueba",
+					false,
+					null
+				)
+
+				try {
+					emailService.sendEmail(emailData);
+					res.status(200).send(true)
+				} catch (error) {
+					res.status(400).send(error)
+				}
 			}
-        
 
 };
 
