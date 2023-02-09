@@ -50,6 +50,7 @@ router.delete('/admin/licenciatura/eliminarMateria',PlanEstudiosCtrl.removeCurso
 
 var AlumnoCtrl = require('../controllers/alumnoCtrl');
 router.post('/alumno/crearAlumno', AlumnoCtrl.crearAlumno);
+router.post('/alumno/login', AlumnoCtrl.logInAlumno); //login del alumno
 router.get('/alumno/:matricula', AlumnoCtrl.recuperarAlumno); // Servicio temporal para mostar el alumno
 router.get('/alumno/encuesta/:matricula/:id_licenciatura', AlumnoCtrl.obtenerEncuestAlumno);
 
