@@ -13,7 +13,7 @@ var controller = {
 				var query = {
 					matricula: matricula
 				};
-				Alumno.findOne(query).populate({path:'carrera', select:'nombre clave -_id'}).exec((err, result) => {
+				Alumno.findOne(query).populate({path:'carrera', select:'nombre clave _id'}).exec((err, result) => {
 					if (err)
 						return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
 					if (!result) {

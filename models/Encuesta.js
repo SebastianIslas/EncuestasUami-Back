@@ -9,10 +9,10 @@ const EncuestaSchema = Schema({
   },
 
   // Posiblemente sea bueno quitar esto
-  licenciatura: [ {
+  licenciatura: {
     type: Schema.Types.ObjectId,
     ref: 'Licenciatura'
-  } ],
+  },
 
   /* 
     // Solamente hay un plan de estudio por licenciatura!! 

@@ -78,7 +78,40 @@ var controller = {
 							error: err
 						});
 					});
-			}
+			},
+
+			consultarEncuestaActivaLic : async function (req, res) {
+				const claveLic  = req.params.claveLic;
+				const idLic = (await Licenciatura.findOne({clave: claveLic}))._id;
+				const query = {
+					licenciatura : idLic,
+					activo: true
+				};
+				Encuesta.findOne(query).populate({path:'licenciatura', select:'nombre'}).exec((err, result) => {
+					if (err)
+						return res.status(408).send({ message: ' ! El servidor no pudo responder la petición del usuario ! ' });
+					if (!result) {
+						return res.status(404).send({ message: 'No existe encuesta' });
+					}
+					return res.status(200).send(result);
+				});
+			},
+
+			consultarEncuestaDesactivada : async function (req, res) {
+				const periodo  = req.params.periodo;
+				const query = {
+					periodo: periodo,
+					activo: false
+				};
+				Encuesta.findOne(query).populate({path:'licenciatura', select:'nombre'}).exec((err, result) => {
+					if (err)
+						return res.status(408).send({ message: ' ! El servidor no pudo responder la petición del usuario ! ' });
+					if (!result) {
+						return res.status(404).send({ message: 'No existe encuesta' });
+					}
+					return res.status(200).send(result);
+				});
+			},
         
 
 };
