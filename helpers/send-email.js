@@ -89,7 +89,6 @@ function sendEmailRecuperacionAlumno(destination, codigoRecuperacion) {
 // main().catch(console.error);
 
 module.exports = {
-  emailData,
   sendEmail,
   sendEmailRecuperacionAlumno
 }
