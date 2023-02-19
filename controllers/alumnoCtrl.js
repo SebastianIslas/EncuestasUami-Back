@@ -2,6 +2,7 @@ const { query } = require("express");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
 const crypto = require("crypto");
+const bcrypt = require('bcryptjs');
 
 const Licenciatura = require("../models/Licenciatura");
 const Alumno = require("../models/Alumno");
@@ -105,7 +106,6 @@ var controller = {
 				{ matricula: matricula },
 				{ 
 					matricula: matricula,
-					email: alumno.email,
 					codigoRecuperacion: codigoRecuperacion
 				},
 				{ upsert: true }  // Si no encuentra un alumno en la bd, lo crea
@@ -115,6 +115,11 @@ var controller = {
 					console.log("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
 				} else {
 					console.error("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
+				}
+
+				if (err) {
+					console.error("Error al guardar datos para la recuperación: " + matricula);
+					res.status(400).send(err)
 				}
 			})
 
@@ -127,9 +132,49 @@ var controller = {
 				res.status(400).send(error)
 			}
 		})
-	}
+	},
 
 	// Cambiar la password 
+	reestablecerPassword: function(req, res) {
+		const matricula = req.body.matricula;
+		const newPassword = req.body.password;
+		const codigoRecuperacion = req.body.codigo.toLocaleUpperCase('es-MX');
+
+		RecuperacionPassword.findOne(
+			{ 
+				matricula: matricula,
+				codigoRecuperacion: codigoRecuperacion
+			}
+		)
+		.exec(function (err, datosRecuperacion) {
+			if (datosRecuperacion) {
+				if (err) {
+					console.error("Error al obtener datos de recuperación de password: " + matricula);
+					res.status(400).send(err);
+				}
+
+				const salt = bcrypt.genSaltSync();
+				let hashAndSaltPassword = bcrypt.hashSync(newPassword, salt);
+
+				Alumno.updateOne(
+					{ matricula: matricula },
+					{ password: hashAndSaltPassword },
+					{ upsert: false }
+				)
+				.exec(function (err, alumno) {
+					if (err) {
+						console.error("Error al actualizar los datos de: " + matricula);
+						res.status(400).send(err);
+					}
+					
+					if (alumno) {
+						console.log("Cambio de datos exitoso para: " + matricula)
+						res.status(200).send(true);
+					}
+				}); 
+			}
+		});
+	}
 };
 
 module.exports = controller

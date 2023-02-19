@@ -27,6 +27,5 @@ function sendEmailRecuperacionAlumno(destination, codigoRecuperacion) {
 }
 
 module.exports = {
-  sendEmail,
   sendEmailRecuperacionAlumno
 }

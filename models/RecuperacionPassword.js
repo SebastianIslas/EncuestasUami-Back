@@ -1,15 +1,8 @@
 const { Schema, model } = require('mongoose');
 
 const RecuperacionPasswordSchema = Schema({
-
   matricula: {
     type: Number,
-    unique: true,
-    required: true
-  },
-  
-  email: {
-    type: String,
     unique: true,
     required: true
   },
