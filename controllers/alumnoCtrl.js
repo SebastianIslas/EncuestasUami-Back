@@ -98,7 +98,7 @@ var controller = {
 			console.log("Enviando correo de recuperación a: " + alumno.email);
 
 			// Generar un código de confirmación (son número y letras en mayúsculas)
-			let codigoRecuperacion = crypto.randomBytes(4).toString('hex').toLocaleUpperCase('es-MX');
+			let codigoRecuperacion = crypto.randomBytes(3).toString('hex').toLocaleUpperCase('es-MX');
 
 			// Agregamos el código en la entidad alumno de la BD
 			RecuperacionPassword.updateOne(
@@ -128,6 +128,8 @@ var controller = {
 			}
 		})
 	}
+
+	// Cambiar la password 
 };
 
 module.exports = controller
