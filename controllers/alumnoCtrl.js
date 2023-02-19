@@ -97,7 +97,7 @@ var controller = {
 		
 			console.log("Enviando correo de recuperación a: " + alumno.email);
 
-			// Generar un código de confirmación (son número y letras en mayúsculas)
+			// Generar un código de confirmación (son números y letras en mayúsculas)
 			let codigoRecuperacion = crypto.randomBytes(3).toString('hex').toLocaleUpperCase('es-MX');
 
 			// Agregamos el código en la entidad alumno de la BD
