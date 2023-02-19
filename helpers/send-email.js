@@ -16,23 +16,36 @@ let transporter = nodemailer.createTransport({
 
 
 // Objeto con los datos para enviar y el contenido del correo
-class emailData {
-  constructor(dest, subject, isTemplate, body) {
-    this.dest = dest;
-    this.subject = subject;
-    this.isTemplate = isTemplate; // Boolean que nos dice que tenemos que hacer un render del mensaje
-    this.body = body; // Objeto que contiene una serie de propiedades que usaremos renderizar el mensaje
-  }
-}
+// class emailData {
+//   constructor(dest, subject, template, body) {
+//     this.dest = dest;
+//     this.subject = subject;
+//     this.template = template; // Objeto de tipo template para renderizar el html del correo
+//     this.body = body; // Objeto que contiene una serie de propiedades que usaremos renderizar el mensaje
+//   }
+// }
 
+// TODO en lugar de una función general, tener una función por tipo de correo, para poder controlar la versión text y la html
 function sendEmail(emailDataObject) {
   var message = {
     from: process.env.SMTP_SENDER,
     to: emailDataObject.dest,
     subject: emailDataObject.subject,
     // TODO: hacer un render para enviar el mensaje
-    text: "Plaintext version of the message",
-    html: "<p>HTML version of the message</p>"
+    // text: 
+    // html: emailDataObject.body
+  };
+
+  transporter.sendMail(message);
+}
+
+function sendEmailRecuperacionAlumno(destination, codigoRecuperacion) {
+  var message = {
+    from: process.env.SMTP_SENDER,
+    to: destination,
+    subject: "Código de recuperación de contraseña",
+    text: `Hola, Alumno:\nTu código de recuperación es ${codigoRecuperacion}.`,
+    html: `<p>Hola Alumno:</p><br><p>Tu código de recuperación es ${codigoRecuperacion}.</p>`
   };
 
   transporter.sendMail(message);
@@ -77,5 +90,6 @@ function sendEmail(emailDataObject) {
 
 module.exports = {
   emailData,
-  sendEmail
+  sendEmail,
+  sendEmailRecuperacionAlumno
 }
