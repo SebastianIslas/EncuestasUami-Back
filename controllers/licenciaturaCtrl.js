@@ -5,6 +5,7 @@ const { query } = require("express");
 
 		const Licenciatura = require("../models/Licenciatura");
 		const Curso = require("../models/Curso");
+		const Profesor = require("../models/Profesor");
 
 		var controller = {
 
@@ -147,7 +148,73 @@ const { query } = require("express");
 		});
 
 	},
+	asignarProfesorAMateria: function(req, res){
+		let claveUEA = req.params.id_Materia;
+		let claveProfe = req.params.claveEmpleado
+		
+		var query = { clave: claveUEA }
+			
 
+		Profesor.findOne({claveEmpleado: claveProfe}).exec((err, prof) =>{
+			if (err) {
+				return res.status(500).send({ message: "! Error en la base de datos !" });
+			}
+			if (prof == null) {
+				return res.status(404).send({
+					message: "No se ha podido agregar el profesor.",
+				});
+			} else {
+				Curso.findOne(query).exec((err, c) => {
+					if (err) return res.send(err);
+					c.profesores.push(prof);
+					c.save(function(err) {
+						if (err) return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+						return res.status(200).send({ message: "El curso ha sido actualizado de manera correcta" });
+					});
+				});
+			}
+		});
+	},
+
+	getProfesoresFromCurso: function (req, res){
+		let claveUEA = req.params.id_materia;
+		var query = {
+			clave: claveUEA
+		};
+		Curso.findOne(query, {profesores: 1, _id: 0}).populate({path: 'profesores', select: '-_id'}).exec((err, result) => {
+		if (err)
+			return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+		if (!result) {
+			return res.status(404).send({ message: 'No hay cursos que mostrar.' });
+		}
+		return res.status(200).send(result);
+		});
+	},
+	
+	// removeCursoFromLicenciatura
+	removerProfesorFromCurso: function (req, res) {
+		let claveCurso = req.params.id_materia;
+		let claveProfe = req.params.claveEmpleado;
+        let query = {claveEmpleado: claveProfe}
+		
+		Profesor.findOne(query).exec((err, profesor) => {
+			if (err)
+				return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+			if (!profesor) {
+				return res.status(404).send({ message: 'No hay Cursos que mostrar.' });
+			}
+			Curso.updateOne( { clave: claveCurso }, {
+				$pullAll: { profesores: [ profesor._id ] },
+			}).exec((err, info) => {
+					if(info.modifiedCount == 0) return res.status(404).send({message: "El profesor no da ese curso"});
+					if(err) return res.status(404).send({message: err});
+					return res.status(200).send({
+						message: "Se ha eliminado el profesor correctamente"
+				})
+			})
+		});
+		
+	},
 
 	/**
 	 * [ HTTP | DELETE ]
