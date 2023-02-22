@@ -44,6 +44,8 @@ router.post('/newCurso', PlanEstudiosCtrl.crearCurso);
 router.post('/newLic', PlanEstudiosCtrl.agregarLicenciatura)
 router.delete('/del',PlanEstudiosCtrl.removeCursoFromLicenciatura);
 router.delete('/delSol',PlanEstudiosCtrl.deleteCurso);
+router.put('/admin/licenciatura/:idLic', PlanEstudiosCtrl.editarLicenciatura);
+router.delete('/admin/licenciatura/:idLic', PlanEstudiosCtrl.eliminarLicenciatura);
 
 var AlumnoCtrl = require('../controllers/alumnoCtrl');
 router.post('/alumno', AlumnoCtrl.getAlumno);

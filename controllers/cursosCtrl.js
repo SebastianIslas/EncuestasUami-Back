@@ -54,47 +54,15 @@ const { query } = require("express");
 					clave: claveLic
 				};
 				Licenciatura.findOne(query, {cursos: 1, _id: 0}).populate({path: 'cursos', select: '-_id'}).exec((err, result) => {
+				if (err)
 					return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
-					if (err)
-					if (!result) {
-						return res.status(404).send({ message: 'No hay cursos que mostrar.' });
-					}
-					return res.status(200).send(result);
-				});
-			},
-			editarLicenciatura: function (req, res){
-				let idLic = req.params.idLic;
-				let newClave = req.body.clave;
-				let newNombre = req.body.nombre;
-				console.log(idLic);
-				
-				Licenciatura.updateOne(
-					{clave: idLic},
-					{
-						nombre: newNombre,
-						clave: newClave
-					}
-					).exec((err, lic) => {
-						if(err)
-							return res.status(500).send({ message: ' ! Error en la base de datos o ya existe una licenciatura con esta clave ! ' });
-						if(lic.matchedCount == 0)
-							return res.status(404).send({ message: "Licenciatura a modificar no encontrada" });
-						return res.status(200).send({ message: "La licenciatura ha sido actualizado de manera correcta" });
-				});
-			},
-			eliminarLicenciatura: function (req, res){
-				let idLic = req.params.idLic;
-				console.log(idLic);
-				
-				Licenciatura.findOneAndDelete({ clave: idLic }).exec((err,lic) =>{
-					if (err) 
-						return res.status(404).send({message: 'Ha ocurrido un error'});
-					if (lic == null)
-						 return res.status(404).send({message: "No se ha encontrado la licenciatura"})
-					return res.status(200).send({message: "Se ha eliminado la licenciatura correctamente"})
-				});
-
-			},
+				if (!result) {
+					return res.status(404).send({ message: 'No hay cursos que mostrar.' });
+				}
+				return res.status(200).send(result);
+		});
+	}
+	,
 
 	/**
 	 * [ HTTP | POST ]
