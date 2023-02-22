@@ -5,10 +5,11 @@ const res = require("express/lib/response");
 
 const Licenciatura = require("../models/Licenciatura");
 const Alumno = require("../models/Alumno");
+const EncuestaResuelta = require('../models/EncuestaResuelta');
 
 var controller = {
-            getAlumno: function (req, res) {
-				let matricula = req.body.matricula;
+            recuperarAlumno: function (req, res) {
+				let matricula = req.params.matricula;
 				var query = {
 					matricula: matricula
 				};
@@ -21,7 +22,7 @@ var controller = {
 					return res.status(200).send(result);
 				});
 			},
-			agregarAlumno: function (req, res) {
+			crearAlumno: function (req, res) {
 				const matricula = req.body.matricula
 				const email  = req.body.email
                 const password = req.body.password
@@ -52,6 +53,26 @@ var controller = {
 				
 				
 			},
+			obtenerEncuestAlumno: function (req, res)  {
+				const matricula = req.params.matricula;
+				const id_licenciatura = req.params.id_licenciatura;
+				Alumno.findOne({matricula: matricula, carrera: id_licenciatura})
+					.populate('EncuestasResueltas')
+					.exec()
+					.then(alumno => {
+						if(!alumno) {
+							return res.status(404).json({
+								message: "Alumno no encontrado"
+							});
+						}
+						res.status(200).send(alumno)
+					})
+					.catch(err => {
+						res.status(500).json({
+							error: err
+						});
+					});
+			}
         
 
 };

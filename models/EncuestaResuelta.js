@@ -4,9 +4,9 @@ const { Schema, model } = require('mongoose');
 const EncuestaResueltaSchema = Schema({
   //Id el de mongo,
 
-  alumno:{type: Schema.Types.ObjectId, ref: 'Alumno' },
+  alumno:{type: Schema.Types.ObjectId, ref: 'Alumno', require: true },
   
-  encuesta:{type: Schema.Types.ObjectId, ref: 'Encuesta' },
+  encuesta:{type: Schema.Types.ObjectId, ref: 'Encuesta', require: true },
   
   cursosSeleccionados:
     [
@@ -30,6 +30,8 @@ const EncuestaResueltaSchema = Schema({
         },
       }
     ]
+},{
+  versionKey: false 
 });
 
 module.exports = model('EncuestaResuelta', EncuestaResueltaSchema );
