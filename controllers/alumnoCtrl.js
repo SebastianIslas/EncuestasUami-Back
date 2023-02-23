@@ -79,7 +79,7 @@ var controller = {
 				//creamos el token
 				const token = jwt.sign({
 					alumnoId: alumno.matricula
-				}, 'mySecretKey1234', {
+				}, process.env.SECRET_JWT_SEED, {
 					expiresIn: 3600
 				});
 				// devolvemos el token con el mensaje 
