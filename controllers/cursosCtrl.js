@@ -194,6 +194,30 @@ const { query } = require("express");
 			})
 		});
 	},
+	//Editar curso
+	editarCurso: function (req, res) {
+		let idCurso = req.params.idCurso;
+		let newClave = req.body.clave;
+		let newNombre = req.body.nombre;
+		let newTipo = req.body.tipo;
+		console.log(idCurso);
+		
+		Curso.updateOne(
+			{clave: idCurso},
+			{
+				nombre: newNombre,
+				clave: newClave,
+				tipo: newTipo
+			}
+			).exec((err, curs) => {
+				if(err)
+					return res.status(500).send({ message: ' ! Error en la base de datos o ya existe un curso con esta clave ! ' });
+				if(curs.matchedCount == 0)
+					return res.status(404).send({ message: "Curso a modificar no encontrada" });
+				return res.status(200).send({ message: "El curso ha sido actualizado de manera correcta" });
+			});
+	}
+
 
 };
 
