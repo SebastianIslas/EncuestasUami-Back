@@ -80,35 +80,44 @@ var controller = {
 					});
 			},
 
-			consultarEncuestaActivaLic : async function (req, res) {
+			consultarCursosEncuestaActivaLic : async function (req, res) {
 				const claveLic  = req.params.claveLic;
-				const idLic = (await Licenciatura.findOne({clave: claveLic}))._id;
+				const licenciatura = await Licenciatura.findOne({clave: claveLic});
+				if (!licenciatura) {
+  					return res.status(404).send({ message: 'La licenciatura no se encontró en la base de datos.' });
+				}
+				const idLic = licenciatura._id;
+				const encuesta = (await Encuesta.findOne({licenciatura: idLic, activo: true}));
+				if (!encuesta) {
+					return res.status(404).send({ message: 'La encuesta no se encuentra activa' });
+				}
 				const query = {
-					licenciatura : idLic,
-					activo: true
+					_id : idLic
 				};
-				Encuesta.findOne(query).populate({path:'licenciatura', select:'nombre'}).exec((err, result) => {
+				Licenciatura.findOne(query).populate({path:'cursos', select:'nombre'}).exec((err, result) => {
 					if (err)
 						return res.status(408).send({ message: ' ! El servidor no pudo responder la petición del usuario ! ' });
-					if (!result) {
-						return res.status(404).send({ message: 'No existe encuesta' });
-					}
 					return res.status(200).send(result);
 				});
 			},
 
-			consultarEncuestaDesactivada : async function (req, res) {
+			consultarEncuestaDesactivadaPeriodo : async function (req, res) {
 				const periodo  = req.params.periodo;
+				const encu = (await Encuesta.findOne({periodo: periodo}));
+				if(!encu) {
+					return res.status(404).send({ message: 'No existe periodo' });
+				}
 				const query = {
 					periodo: periodo,
 					activo: false
 				};
+				const noact = (await Encuesta.findOne(query));
+				if(!noact){
+					return res.status(404).send({ message: 'No existe encuesta desactivada en este periodo' });
+				}
 				Encuesta.findOne(query).populate({path:'licenciatura', select:'nombre'}).exec((err, result) => {
 					if (err)
 						return res.status(408).send({ message: ' ! El servidor no pudo responder la petición del usuario ! ' });
-					if (!result) {
-						return res.status(404).send({ message: 'No existe encuesta' });
-					}
 					return res.status(200).send(result);
 				});
 			},

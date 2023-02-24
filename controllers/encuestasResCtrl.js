@@ -108,6 +108,35 @@ var controller = {
 				});
 				
 			},
+
+			consultarEncuestaRes : async function (req, res) {
+				const periodo  = req.params.periodo;
+				const matricula = req.params.matricula;
+				const per = (await Encuesta.findOne({periodo: periodo}));
+				if(!per) {
+					return res.status(404).send({ message: 'No existe periodo' });
+				}
+				const alum = (await Alumno.findOne({matricula: matricula}));
+				if(!alum) {
+					return res.status(404).send({ message: 'No existe alumno' });
+				}
+				const idAlumno = alum._id;
+				const arrIdEncuestaRes = await EncuestaResuelta.find({alumno: idAlumno}).distinct('encuesta');
+				if(!arrIdEncuestaRes) {
+					return res.status(404).send({ message: 'No existe encuesta resuelta asociada al alumno' });
+				}
+				const idEncuesta = (await Encuesta.findOne({periodo: periodo}))._id;
+				if (arrIdEncuestaRes.includes(idEncuesta)) {
+					const query = {
+						encuesta: idEncuesta
+					};
+					EncuestaResuelta.findOne(query).populate({path:'cursosSeleccionados', select:'curso'}).exec((err, result) => {
+						if (err)
+							return res.status(408).send({ message: ' ! El servidor no pudo responder la petición del usuario ! ' });
+						return res.status(200).send(result);
+					});
+				}
+			},
         
 };
 

@@ -57,12 +57,15 @@ var EncuestasCtrl = require('../controllers/encuestasCtrl');
 router.post('/administrador/encuesta/iniciar', EncuestasCtrl.iniciarEncuesta);
 router.patch('/administrador/encuesta/desactivar/:periodo', EncuestasCtrl.desactivarEncuesta);
 router.get('/administrador/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta); // Servicio temporal
-router.get('/administrador/encuesta/activaLic/:claveLic', EncuestasCtrl.consultarEncuestaActivaLic);
-router.get('/administrador/encuesta/consultarEncuestaDes/:periodo', EncuestasCtrl.consultarEncuestaDesactivada);
+router.get('/administrador/encuesta/activaLic/:claveLic', EncuestasCtrl.consultarCursosEncuestaActivaLic);
+router.get('/administrador/encuesta/desactivada/:periodo', EncuestasCtrl.consultarEncuestaDesactivadaPeriodo);
 
 var EncuestasResCtrl = require('../controllers/encuestasResCtrl');
 router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
 router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
+router.get('/alumno/ultimaEncuesta/:periodo/:matricula', EncuestasResCtrl.consultarEncuestaRes);
+///alumno/ultimaEncuesta/22P/63c77c4b9f2c8fd8efe1783d
+router.get('/alumno/ultimaEncuesta/:matricula', EncuestasResCtrl.consultarEncuestaRes);
 
 
 module.exports = router;
