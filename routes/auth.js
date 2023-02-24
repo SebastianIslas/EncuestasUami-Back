@@ -42,10 +42,13 @@ router.get( '/renew', validarJWT , revalidarToken );
  * 
  */
 var PlanEstudiosCtrl = require('../controllers/licenciaturaCtrl');
+
 router.post('/admin/materias/crear', PlanEstudiosCtrl.crearCurso);
 router.delete('/admin/materias/eliminar/:clave_materia',PlanEstudiosCtrl.eliminarCurso);
 router.post('/admin/licenciatura/crear', PlanEstudiosCtrl.agregarLicenciatura)
 router.put('/admin/licenciatura/agregarMateriaExistenteALic/:id_lic/:id_Materia', PlanEstudiosCtrl.agregarMateriaExistenteALicenciatura);
+router.put('/admin/licenciatura/:idLic', PlanEstudiosCtrl.editarLicenciatura);
+router.delete('/admin/licenciatura/:idLic', PlanEstudiosCtrl.eliminarLicenciatura);
 
 // Servicios temporales /////////////////////////////////////////////////////////////////////////////////////////////////
 router.get('/licenciatura/:id_lic', PlanEstudiosCtrl.getLicenciatura);
@@ -57,6 +60,7 @@ router.get('/admin/licenciatura/materias/consultarProfesores/:id_materia', PlanE
 router.delete('/admin/licenciatura/materias/removerProfesorFromCurso/:id_materia/:claveEmpleado', PlanEstudiosCtrl.removerProfesorFromCurso)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 var AlumnoCtrl = require('../controllers/alumnoCtrl');
 router.post('/alumno/crearAlumno', AlumnoCtrl.crearAlumno);
@@ -79,5 +83,7 @@ var ProfesorCtrl = require('../controllers/profesorCtrl');
 router.post('/admin/profesor/crearProfesor', ProfesorCtrl.crearProfesor); 
 router.delete('/admin/profesor/eliminarProfesor/:claveEmpleado', ProfesorCtrl.eliminarProfesor);
 
+var CursoCtrl = require('../controllers/cursosCtrl');
+router.put('/admin/curso/:idCurso', CursoCtrl.editarCurso); 
 
 module.exports = router;
