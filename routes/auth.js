@@ -6,6 +6,12 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
+router.use(function (req, res, next) {
+  console.log('Request URL:', req.originalUrl);
+  console.log('Time:', Date.now());
+  next();
+});
+
 // Crear un nuevo usuario EN DESARROLLO
 router.post( '/new', [
     check('name', 'El nombre es obligatorio').not().isEmpty(),
@@ -56,6 +62,8 @@ var AlumnoCtrl = require('../controllers/alumnoCtrl');
 router.post('/alumno/crearAlumno', AlumnoCtrl.crearAlumno);
 router.get('/alumno/:matricula', AlumnoCtrl.recuperarAlumno); // Servicio temporal para mostar el alumno
 router.get('/alumno/encuesta/:matricula/:id_licenciatura', AlumnoCtrl.obtenerEncuestAlumno);
+router.get('/alumno/login/recuperar/:matricula', AlumnoCtrl.recuperarPassword);
+router.post('/alumno/login/reestablecer', AlumnoCtrl.reestablecerPassword);
 
 var EncuestasCtrl = require('../controllers/encuestasCtrl');
 router.post('/administrador/encuesta/iniciar', EncuestasCtrl.iniciarEncuesta);
