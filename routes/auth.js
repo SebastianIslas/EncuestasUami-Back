@@ -64,6 +64,7 @@ router.delete('/admin/licenciatura/materias/removerProfesorFromCurso/:id_materia
 
 var AlumnoCtrl = require('../controllers/alumnoCtrl');
 router.post('/alumno/crearAlumno', AlumnoCtrl.crearAlumno);
+router.post('/alumno/login', AlumnoCtrl.logInAlumno); //login del alumno
 router.get('/alumno/:matricula', AlumnoCtrl.recuperarAlumno); // Servicio temporal para mostar el alumno
 router.get('/alumno/encuesta/:matricula/:id_licenciatura', AlumnoCtrl.obtenerEncuestAlumno);
 router.get('/alumno/login/recuperar/:matricula', AlumnoCtrl.recuperarPassword);

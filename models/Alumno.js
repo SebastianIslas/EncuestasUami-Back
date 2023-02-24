@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const AlumnoSchema = Schema({
-
+  
   matricula: {
     type: Number,
     unique: true,
