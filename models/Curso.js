@@ -15,7 +15,13 @@ const CursoSchema = Schema({
     type: String,
     enum: ['Optativa', 'Obligatoria'],
     default: 'Obligatoria'
-  }
+  },
+
+  profesores: [ {
+    type: Schema.Types.ObjectId,
+  ref: 'Profesor'
+  } ]
+
 },  {
   versionKey: false 
 });
