@@ -7,22 +7,22 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 const router = Router();
 
 // Crear un nuevo usuario EN DESARROLLO
-router.post( '/new', [
-    check('name', 'El nombre es obligatorio').not().isEmpty(),
-    check('email', 'El email es obligatorio').isEmail(),
-    check('password', 'La contraseña es obligatoria').isLength({ min: 6 }),
-    validarCampos
-], crearUsuario );
+router.post('/new', [
+  check('name', 'El nombre es obligatorio').not().isEmpty(),
+  check('email', 'El email es obligatorio').isEmail(),
+  check('password', 'La contraseña es obligatoria').isLength({ min: 6 }),
+  validarCampos
+], crearUsuario);
 
 // Login de usuario EN DESARROLLO
-router.post( '/', [
-    check('email', 'El email es obligatorio').isEmail(),
-    check('password', 'La contraseña es obligatoria').isLength({ min: 6 }),
-    validarCampos
-], loginUsuario );
+router.post('/', [
+  check('email', 'El email es obligatorio').isEmail(),
+  check('password', 'La contraseña es obligatoria').isLength({ min: 6 }),
+  validarCampos
+], loginUsuario);
 
 // Validar y revalidar token
-router.get( '/renew', validarJWT , revalidarToken );
+router.get('/renew', validarJWT, revalidarToken);
 
 
 /**
@@ -37,7 +37,7 @@ router.get( '/renew', validarJWT , revalidarToken );
  */
 var PlanEstudiosCtrl = require('../controllers/licenciaturaCtrl');
 router.post('/admin/materias/crear', PlanEstudiosCtrl.crearCurso);
-router.delete('/admin/materias/eliminar/:clave_materia',PlanEstudiosCtrl.eliminarCurso);
+router.delete('/admin/materias/eliminar/:clave_materia', PlanEstudiosCtrl.eliminarCurso);
 router.post('/admin/licenciatura/crear', PlanEstudiosCtrl.agregarLicenciatura)
 router.put('/admin/licenciatura/agregarMateriaExistenteALic/:id_lic/:id_Materia', PlanEstudiosCtrl.agregarMateriaExistenteALicenciatura);
 
@@ -45,7 +45,7 @@ router.put('/admin/licenciatura/agregarMateriaExistenteALic/:id_lic/:id_Materia'
 router.get('/licenciatura/:id_lic', PlanEstudiosCtrl.getLicenciatura);
 router.post('/materia/:id_lic', PlanEstudiosCtrl.getCursos);
 router.post('/admin/licenciatura/agregarYCrearMateriaALic/:id_lic', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
-router.delete('/admin/licenciatura/eliminarMateria',PlanEstudiosCtrl.removeCursoFromLicenciatura);
+router.delete('/admin/licenciatura/eliminarMateria', PlanEstudiosCtrl.removeCursoFromLicenciatura);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var AlumnoCtrl = require('../controllers/alumnoCtrl');
@@ -62,6 +62,9 @@ router.get('/administrador/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta);
 var EncuestasResCtrl = require('../controllers/encuestasResCtrl');
 router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
 router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
+
+var AdministradorCtrl = require('../controllers/administradorCtrl');
+router.get('/administrador/login', AdministradorCtrl.loginAdmin);
 
 
 module.exports = router;
