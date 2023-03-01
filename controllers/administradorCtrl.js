@@ -1,4 +1,4 @@
-const { query } = require("express");
+const { query } = require("express") admin;
 const req = require("express/lib/request");
 const res = require("express/lib/response");
 const crypto = require("crypto");
@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const Administrador = require('../models/Administrador');
+const RecuperacionPassword = require('../models/RecuperacionPassword');
 
 var controller = {
   loginAdmin: async function(req, res) {
@@ -39,39 +40,39 @@ var controller = {
 
   // Enviar un mensaje de recuperación de contraseña
   recuperarPasswordAdmin: function(req, res) {
-    const matricula = req.params.numEmpleado;
+    const numEmpleado = req.params.numEmpleado;
 
     // TODO: validar matrícula
     // TODO: borrar el registro en recuperacionPassword
 
-    // Obtener el alumno de la BD
-    let alumnoQuery = Alumno.findOne({ matricula: matricula }, 'email')
+    // Obtener el admin de la BD
+    let adminQuery = Administrador.findOne({ numEmpleado: numEmpleado }, 'email')
 
-    alumnoQuery.exec(function(err, alumno) {
+    adminQuery.exec(function(err, admin) {
       if (err) {
         res.status(400).send(err)
         return handleError(err);
       };
 
-      console.log("Enviando correo de recuperación a: " + alumno.email);
+      console.log("Enviando correo de recuperación a: " + admin.email);
 
       // Generar un código de confirmación (son números y letras en mayúsculas)
       let codigoRecuperacion = crypto.randomBytes(3).toString('hex').toLocaleUpperCase('es-MX');
 
-      // Agregamos el código en la entidad alumno de la BD
+      // Agregamos el código en la entidad admin de la BD
       RecuperacionPassword.updateOne(
-        { matricula: matricula },
+        { idUsuario: numEmpleado },
         {
-          matricula: matricula,
+          idUsuario: numEmpleado,
           codigoRecuperacion: codigoRecuperacion
         },
-        { upsert: true }  // Si no encuentra un alumno en la bd, lo crea
+        { upsert: true }  // Si no encuentra un admin en la bd, lo crea
       )
         .exec(function(err, res) {
           if (res.acknowledged) {
-            console.log("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
+            console.log("Creación de codigo de recuperación de admin con id: " + matricula);
           } else {
-            console.error("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
+            console.error("Creación de codigo de recuperación de admin con id: " + matricula);
           }
 
           if (err) {
@@ -82,24 +83,24 @@ var controller = {
 
       // Enviar el correo
       try {
-        emailService.sendEmailRecuperacionAlumno(alumno.email, codigoRecuperacion);
+        emailService.sendEmailRecuperacionAlumno(admin.email, codigoRecuperacion);
         res.status(200).send(true)
       } catch (error) {
-        console.error("Error con nodemailer al enviar correo a " + alumno.email);
+        console.error("Error con nodemailer al enviar correo a " + admin.email);
         res.status(400).send(error)
       }
     })
   },
 
   // Cambiar la password 
-  reestablecerPassword: function(req, res) {
-    const matricula = req.body.matricula;
+  reestablecerPasswordAdmin: function(req, res) {
+    const numEmpleado = req.body.numEmpleado;
     const newPassword = req.body.password;
     const codigoRecuperacion = req.body.codigo.toLocaleUpperCase('es-MX');
 
     RecuperacionPassword.findOne(
       {
-        matricula: matricula,
+        idUsuario: matricula,
         codigoRecuperacion: codigoRecuperacion
       }
     )
@@ -113,19 +114,19 @@ var controller = {
           const salt = bcrypt.genSaltSync();
           let hashAndSaltPassword = bcrypt.hashSync(newPassword, salt);
 
-          Alumno.updateOne(
-            { matricula: matricula },
+          Administrador.updateOne(
+            { numEmpleado: numEmpleado },
             { password: hashAndSaltPassword },
             { upsert: false }
           )
-            .exec(function(err, alumno) {
+            .exec(function(err, admin) {
               if (err) {
-                console.error("Error al actualizar los datos de: " + matricula);
+                console.error("Error al actualizar los datos de admin: " + numEmpleado);
                 res.status(400).send(err);
               }
 
-              if (alumno) {
-                console.log("Cambio de datos exitoso para: " + matricula)
+              if (admin) {
+                console.log("Cambio de datos exitoso para admin: " + numEmpleado)
                 res.status(200).send(true);
               }
             });

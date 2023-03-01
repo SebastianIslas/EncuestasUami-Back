@@ -1,19 +1,19 @@
 const { Schema, model } = require('mongoose');
 
 const RecuperacionPasswordSchema = Schema({
-  matricula: {
-    type: Number,
+  idUsuario: {
+    type: String,
     unique: true,
     required: true
   },
-  
+
   codigoRecuperacion: {
     type: String,
     unique: true,
     required: true
   },
-},{
-  versionKey: false 
+}, {
+  versionKey: false
 });
 
-module.exports = model('RecuperacionPassword', RecuperacionPasswordSchema );
+module.exports = model('RecuperacionPassword', RecuperacionPasswordSchema);
