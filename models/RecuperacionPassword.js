@@ -14,6 +14,6 @@ const RecuperacionPasswordSchema = Schema({
   },
 }, {
   versionKey: false
-});
+}, { collection: 'recuperacionPassword' });
 
 module.exports = model('RecuperacionPassword', RecuperacionPasswordSchema);

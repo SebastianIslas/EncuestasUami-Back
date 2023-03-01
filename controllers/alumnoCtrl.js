@@ -152,6 +152,11 @@ var controller = {
         return handleError(err);
       };
 
+      if (!alumno) {
+        res.status(400).send(err)
+        return handleError(err);
+      }
+
       console.log("Enviando correo de recuperación a: " + alumno.email);
 
       // Generar un código de confirmación (son números y letras en mayúsculas)
@@ -165,19 +170,18 @@ var controller = {
           codigoRecuperacion: codigoRecuperacion
         },
         { upsert: true }  // Si no encuentra un alumno en la bd, lo crea
-      )
-        .exec(function(err, res) {
-          if (res.acknowledged) {
-            console.log("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
-          } else {
-            console.error("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
-          }
+      ).exec(function(err, res) {
+        if (res.acknowledged) {
+          console.log("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
+        } else {
+          console.error("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
+        }
 
-          if (err) {
-            console.error("Error al guardar datos para la recuperación: " + matricula);
-            res.status(400).send(err)
-          }
-        })
+        if (err) {
+          console.error("Error al guardar datos para la recuperación: " + matricula);
+          res.status(400).send(err)
+        }
+      })
 
       // Enviar el correo
       try {
@@ -202,32 +206,34 @@ var controller = {
         codigoRecuperacion: codigoRecuperacion
       }
     ).exec(function(err, datosRecuperacion) {
-      if (datosRecuperacion) {
+      if (err) {
+        console.error("Error al obtener datos de recuperación de password: " + matricula);
+        res.status(400).send(err);
+      }
+
+      if (!datosRecuperacion) {
+        console.error("Error al obtener datos de recuperación de password: " + matricula);
+        res.status(400).send(err);
+      }
+
+      const salt = bcrypt.genSaltSync();
+      let hashAndSaltPassword = bcrypt.hashSync(newPassword, salt);
+
+      Alumno.updateOne(
+        { matricula: matricula },
+        { password: hashAndSaltPassword },
+        { upsert: false }
+      ).exec(function(err, alumno) {
         if (err) {
-          console.error("Error al obtener datos de recuperación de password: " + matricula);
+          console.error("Error al actualizar los datos de: " + matricula);
           res.status(400).send(err);
         }
 
-        const salt = bcrypt.genSaltSync();
-        let hashAndSaltPassword = bcrypt.hashSync(newPassword, salt);
-
-        Alumno.updateOne(
-          { matricula: matricula },
-          { password: hashAndSaltPassword },
-          { upsert: false }
-        )
-          .exec(function(err, alumno) {
-            if (err) {
-              console.error("Error al actualizar los datos de: " + matricula);
-              res.status(400).send(err);
-            }
-
-            if (alumno) {
-              console.log("Cambio de datos exitoso para: " + matricula)
-              res.status(200).send(true);
-            }
-          });
-      }
+        if (alumno) {
+          console.log("Cambio de datos exitoso para: " + matricula)
+          res.status(200).send(true);
+        }
+      });
     });
   }
 };

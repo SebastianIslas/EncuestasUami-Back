@@ -82,6 +82,8 @@ router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasRes
 
 var AdministradorCtrl = require('../controllers/administradorCtrl');
 router.get('/administrador/login', AdministradorCtrl.loginAdmin);
+router.get('/administrador/login/recuperar/:numEmpleado', AdministradorCtrl.recuperarPasswordAdmin);
+router.post('/administrador/login/reestablecer', AdministradorCtrl.reestablecerPasswordAdmin);
 
 var ProfesorCtrl = require('../controllers/profesorCtrl');
 router.post('/admin/profesor/crearProfesor', ProfesorCtrl.crearProfesor);
