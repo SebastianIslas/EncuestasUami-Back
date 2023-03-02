@@ -76,6 +76,7 @@ router.patch('/administrador/encuesta/desactivar/:periodo', EncuestasCtrl.desact
 router.get('/administrador/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta); // Servicio temporal
 router.post('/admin/encuesta', EncuestasCtrl.crearEncuesta);
 router.delete('/admin/encuesta/:idEncuesta', EncuestasCtrl.eliminarEncuesta);
+router.put('/admin/encuesta/:idEncuesta', EncuestasCtrl.editarEncuesta);
 
 var EncuestasResCtrl = require('../controllers/encuestasResCtrl');
 router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
