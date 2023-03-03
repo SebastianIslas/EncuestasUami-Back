@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Encuestas API v1",
-    "dateExported": "2023-03-03T02:16:18.269Z",
+    "dateExported": "2023-03-03T05:01:38.570Z",
     "version": "1.1",
     "folders": [
         {
@@ -63,6 +63,181 @@
     ],
     "requests": [
         {
+            "_id": "854308b3-f789-40f9-ae9b-692afd779e24",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "228aa5e1-049c-435f-94db-05ec60664807",
+            "name": "alumno??",
+            "url": "/alumno",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-03T04:50:34.492Z",
+            "modified": "2023-03-03T04:53:40.596Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"matricula\": \"2183012662\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "d7e05ef6-5a13-4c65-9985-5ed70632dce4",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "78311cf5-96da-4f8b-b78d-0fcd6aff8a15",
+            "name": "buscarLicenciatura??",
+            "url": "/PlanEstudios",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-03T04:50:34.493Z",
+            "modified": "2023-03-03T04:54:11.108Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"claveLic\": 31\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "97b6b89f-3884-405e-903c-5494f27836f1",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "a4b8ccd7-f805-4bbe-a249-c08865198903",
+            "name": "editarCurso",
+            "url": "/admin/curso/2000001",
+            "method": "PUT",
+            "sortNum": 10000,
+            "created": "2023-03-03T04:50:34.494Z",
+            "modified": "2023-03-03T04:54:54.577Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nombre\": \"ARTE Y CIENCIA\",\n  \"clave\": 2000001,\n  \"tipo\": \"Optativa\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "2d656a85-2619-4c8a-a671-81bd1981b280",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "963bea03-6fc1-4cc9-9a8a-aae7fc4f1d28",
+            "name": "iniciarEncuesta",
+            "url": "/administrador/encuesta/iniciar",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-03T04:50:34.495Z",
+            "modified": "2023-03-03T04:55:15.038Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"periodo\": \"28O\",\n  \"licenciatura\": [30,22,33],\n  \"max_materias\": 50,\n  \"activo\": true\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "bc797691-9245-40b1-a4ed-f27c68386278",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "e0b34fd6-4ca1-4ce2-bc92-bcb4991ae148",
+            "name": "guardarEncuestaRes??",
+            "url": "/encuestaResuelta",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-03T04:50:34.501Z",
+            "modified": "2023-03-03T04:55:33.583Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"matricula\" : 2183012662,\n    \"encuesta\": \"23I\",\n    \"cursosSeleccionados\" :[\n        {\n            \"claveUEA\": 2000001,\n            \"modalidad\": \"Mixta\", \n            \"turno\": \"Mañana\" \n        },\n        {\n            \"claveUEA\": 2000004,\n            \"modalidad\": \"Mixta\",\n            \"turno\": \"Noche\"\n        },\n        {\n            \"claveUEA\": 2122087,\n            \"modalidad\": \"Mixta\", \n            \"turno\": \"Mañana\" \n        },\n        {\n            \"claveUEA\": 2130030,\n            \"modalidad\": \"Mixta\",\n            \"turno\": \"Noche\"\n        },\n        {\n            \"claveUEA\": 2122059,\n            \"modalidad\": \"Mixta\", \n            \"turno\": \"Mañana\" \n        },\n        {\n            \"claveUEA\": 2111115,\n            \"modalidad\": \"Mixta\",\n            \"turno\": \"Noche\"\n        }\n      ]\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "65898203-bfb5-46f2-9039-526f3514993b",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "380940b9-b905-4bc7-8909-a0cf359ab133",
+            "name": "Crear",
+            "url": "/admin/profesor/crearProfesor",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-03T04:50:34.504Z",
+            "modified": "2023-03-03T04:55:41.404Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"claveEmpleado\": 218000,\n  \"nombreProfesor\": \"Test crear\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "055f50ed-96e9-4cb7-87bb-afed8b162271",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "963bea03-6fc1-4cc9-9a8a-aae7fc4f1d28",
+            "name": "eliminarEncuesta??",
+            "url": "/admin/encuesta/22O",
+            "method": "DELETE",
+            "sortNum": 15000,
+            "created": "2023-03-03T04:50:34.498Z",
+            "modified": "2023-03-03T04:55:19.977Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "fb4ed038-6423-4fe5-a5d7-68e9874b0281",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "78311cf5-96da-4f8b-b78d-0fcd6aff8a15",
+            "name": "editarLicenciatura",
+            "url": "/admin/licenciatura/31",
+            "method": "PUT",
+            "sortNum": 15000,
+            "created": "2023-03-03T04:50:34.499Z",
+            "modified": "2023-03-03T04:54:29.146Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nombre\": \"Licenciatura en Computación\",\n  \"clave\": 30\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "60d3eaa1-b02a-440e-b8a7-0d37bc03a3ce",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "78311cf5-96da-4f8b-b78d-0fcd6aff8a15",
+            "name": "eliminarLicenciatura",
+            "url": "/admin/licenciatura/11",
+            "method": "DELETE",
+            "sortNum": 17500,
+            "created": "2023-03-03T04:50:34.500Z",
+            "modified": "2023-03-03T04:54:31.533Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "852d8c22-b0e1-49bd-991e-1a11a9016b74",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "963bea03-6fc1-4cc9-9a8a-aae7fc4f1d28",
+            "name": "desactivarEncuesta",
+            "url": "/administrador/encuesta/desactivar/28O",
+            "method": "PATCH",
+            "sortNum": 17500,
+            "created": "2023-03-03T04:50:34.506Z",
+            "modified": "2023-03-03T04:55:21.908Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
             "_id": "4a15fc5e-9890-45fc-9f03-772d44430356",
             "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
             "containerId": "228aa5e1-049c-435f-94db-05ec60664807",
@@ -72,6 +247,72 @@
             "sortNum": 20000,
             "created": "2023-03-03T00:29:25.251Z",
             "modified": "2023-03-03T01:39:56.089Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "36d80441-68b1-457d-adab-19ae838bf9ab",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "963bea03-6fc1-4cc9-9a8a-aae7fc4f1d28",
+            "name": "editarEncuesta??",
+            "url": "/admin/encuesta/22O",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2023-03-03T04:50:34.496Z",
+            "modified": "2023-03-03T04:55:17.695Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"periodo\": \"22O\",\n  \"licenciatura\": [30,22,33],\n  \"max_materias\": 30,\n  \"activo\": true\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1eb2950b-82e6-4686-aa08-4cf63d811a29",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "78311cf5-96da-4f8b-b78d-0fcd6aff8a15",
+            "name": "agregarLic",
+            "url": "/newLic",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-03-03T04:50:34.497Z",
+            "modified": "2023-03-03T04:54:14.818Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nombreLic\":\"Licenciatura de prue2ba22\",\n  \"claveLic\": 31\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ff4299d9-39b4-4cca-ac24-1bad41d0be38",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "a4b8ccd7-f805-4bbe-a249-c08865198903",
+            "name": "Asignar profesor",
+            "url": "/admin/licenciatura/materias/agregarProfesor/2124062/111111",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2023-03-03T04:50:34.502Z",
+            "modified": "2023-03-03T04:54:58.121Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "54779f0e-e5a8-4cdf-907c-3f4bf1aed9ae",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "380940b9-b905-4bc7-8909-a0cf359ab133",
+            "name": "Eliminar",
+            "url": "/admin/profesor/eliminarProfesor/218000",
+            "method": "DELETE",
+            "sortNum": 20000,
+            "created": "2023-03-03T04:50:34.505Z",
+            "modified": "2023-03-03T04:55:43.705Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -93,6 +334,20 @@
                 "raw": "{\n\t\"matricula\": \"2183011316\",\n\t\"codigo\": \"550177\",\n\t\"password\": \"newPasss\"\n}",
                 "form": []
             },
+            "tests": []
+        },
+        {
+            "_id": "0ba7b814-cdd2-4bff-883f-9d4fc7a46b77",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "a4b8ccd7-f805-4bbe-a249-c08865198903",
+            "name": "Ver profesores",
+            "url": "/admin/licenciatura/materias/consultarProfesores/2130030",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-03-03T04:50:34.503Z",
+            "modified": "2023-03-03T04:55:00.800Z",
+            "headers": [],
+            "params": [],
             "tests": []
         },
         {
