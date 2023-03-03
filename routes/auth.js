@@ -79,8 +79,8 @@ router.delete('/admin/encuesta/:idEncuesta', EncuestasCtrl.eliminarEncuesta);
 router.put('/admin/encuesta/:idEncuesta', EncuestasCtrl.editarEncuesta);
 
 var EncuestasResCtrl = require('../controllers/encuestasResCtrl');
-router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
-router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
+//router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
+router.post('/encuestaResuelta', EncuestasResCtrl.guardarEncuestaResuelta);
 
 var ProfesorCtrl = require('../controllers/profesorCtrl');
 router.post('/admin/profesor/crearProfesor', ProfesorCtrl.crearProfesor); 
