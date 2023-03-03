@@ -149,12 +149,10 @@ var controller = {
     alumnoQuery.exec(function(err, alumno) {
       if (err) {
         res.status(400).send(err)
-        return handleError(err);
       };
 
       if (!alumno) {
         res.status(400).send(err)
-        return handleError(err);
       }
 
       console.log("Enviando correo de recuperación a: " + alumno.email);
@@ -170,16 +168,16 @@ var controller = {
           codigoRecuperacion: codigoRecuperacion
         },
         { upsert: true }  // Si no encuentra un alumno en la bd, lo crea
-      ).exec(function(err, res) {
-        if (res.acknowledged) {
+      ).exec(function(err, data) {
+        if (err) {
+          console.error("Error al guardar datos para la recuperación: " + matricula);
+          res.status(400).send(err);
+        }
+
+        if (data.acknowledged) {
           console.log("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
         } else {
           console.error("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
-        }
-
-        if (err) {
-          console.error("Error al guardar datos para la recuperación: " + matricula);
-          res.status(400).send(err)
         }
       })
 
