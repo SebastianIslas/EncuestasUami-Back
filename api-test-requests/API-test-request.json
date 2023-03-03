@@ -1,0 +1,158 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Encuestas API v1",
+    "dateExported": "2023-03-03T02:16:18.269Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "228aa5e1-049c-435f-94db-05ec60664807",
+            "name": "Alumno",
+            "containerId": "",
+            "created": "2023-03-03T00:22:47.983Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "661496f9-1d09-4ef7-8201-61074e42f40c",
+            "name": "Administrador",
+            "containerId": "",
+            "created": "2023-03-03T00:23:00.466Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "25555f81-702a-4614-8ec9-9fb27d063aa2",
+            "name": "Auth",
+            "containerId": "",
+            "created": "2023-03-03T00:23:21.047Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "a4b8ccd7-f805-4bbe-a249-c08865198903",
+            "name": "Cursos",
+            "containerId": "",
+            "created": "2023-03-03T00:23:35.742Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "963bea03-6fc1-4cc9-9a8a-aae7fc4f1d28",
+            "name": "Encuesta",
+            "containerId": "",
+            "created": "2023-03-03T00:23:47.727Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "e0b34fd6-4ca1-4ce2-bc92-bcb4991ae148",
+            "name": "EncuestaResuelta",
+            "containerId": "",
+            "created": "2023-03-03T00:24:15.017Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "78311cf5-96da-4f8b-b78d-0fcd6aff8a15",
+            "name": "Licenciatura",
+            "containerId": "",
+            "created": "2023-03-03T00:25:32.235Z",
+            "sortNum": 70000
+        },
+        {
+            "_id": "380940b9-b905-4bc7-8909-a0cf359ab133",
+            "name": "Profesor",
+            "containerId": "",
+            "created": "2023-03-03T00:27:20.124Z",
+            "sortNum": 80000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "4a15fc5e-9890-45fc-9f03-772d44430356",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "228aa5e1-049c-435f-94db-05ec60664807",
+            "name": "Recuperar Password",
+            "url": "/alumno/login/recuperar/2183011316",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-03T00:29:25.251Z",
+            "modified": "2023-03-03T01:39:56.089Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "fa45c914-8625-4866-bdd3-59d273509e9a",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "228aa5e1-049c-435f-94db-05ec60664807",
+            "name": "Reestablecer Password",
+            "url": "/alumno/login/reestablecer",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-03-03T02:01:32.086Z",
+            "modified": "2023-03-03T02:07:27.796Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\t\"matricula\": \"2183011316\",\n\t\"codigo\": \"550177\",\n\t\"password\": \"newPasss\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "a943fb51-c122-4cdc-a76d-1b6924fd76a3",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "661496f9-1d09-4ef7-8201-61074e42f40c",
+            "name": "Login",
+            "url": "/administrador/login",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-03-03T02:09:50.459Z",
+            "modified": "2023-03-03T02:10:13.237Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\t\"email\": \"luisvaldovinosbarrera@gmail.com\",\n\t\"password\": \"newPasss\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "56476f00-1155-45b3-80c0-f76e6342e7dc",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "661496f9-1d09-4ef7-8201-61074e42f40c",
+            "name": "Recuperar Password",
+            "url": "/administrador/login/recuperar/21354532",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2023-03-03T02:10:39.601Z",
+            "modified": "2023-03-03T02:10:43.891Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c063bb4c-9a77-4f75-ad50-f553f619cf76",
+            "colId": "7a550a3c-f2a0-4008-9765-e3322e402b7d",
+            "containerId": "661496f9-1d09-4ef7-8201-61074e42f40c",
+            "name": "Reestablecer Password",
+            "url": "/administrador/login/reestablecer",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2023-03-03T02:11:27.727Z",
+            "modified": "2023-03-03T02:11:57.810Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\t\"numEmpleado\": \"21354532\",\n\t\"codigo\": \"6171B0\",\n\t\"password\": \"newPasss\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ],
+    "settings": {
+        "headers": [],
+        "tests": [],
+        "options": {
+            "baseUrl": "http://localhost:4000/api/encuestas/v1"
+        }
+    }
+}
