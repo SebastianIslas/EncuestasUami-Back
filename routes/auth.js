@@ -6,12 +6,6 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
-router.use(function(req, res, next) {
-  console.log('Request URL:', req.originalUrl);
-  console.log('Time:', Date.now());
-  next();
-});
-
 // Crear un nuevo usuario EN DESARROLLO
 router.post('/new', [
   check('name', 'El nombre es obligatorio').not().isEmpty(),
@@ -43,22 +37,22 @@ router.get('/renew', validarJWT, revalidarToken);
  */
 var PlanEstudiosCtrl = require('../controllers/licenciaturaCtrl');
 
-router.post('/admin/materias/crear', PlanEstudiosCtrl.crearCurso);
-router.delete('/admin/materias/eliminar/:clave_materia', PlanEstudiosCtrl.eliminarCurso);
 router.post('/admin/licenciatura/crear', PlanEstudiosCtrl.agregarLicenciatura)
 router.put('/admin/licenciatura/agregarMateriaExistenteALic/:id_lic/:id_Materia', PlanEstudiosCtrl.agregarMateriaExistenteALicenciatura);
 router.put('/admin/licenciatura/:idLic', PlanEstudiosCtrl.editarLicenciatura);
 router.delete('/admin/licenciatura/:idLic', PlanEstudiosCtrl.eliminarLicenciatura);
-
-// Servicios temporales /////////////////////////////////////////////////////////////////////////////////////////////////
 router.get('/licenciatura/:id_lic', PlanEstudiosCtrl.getLicenciatura);
-router.post('/materia/:id_lic', PlanEstudiosCtrl.getCursos);
 router.post('/admin/licenciatura/agregarYCrearMateriaALic/:id_lic', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
 router.delete('/admin/licenciatura/eliminarMateria', PlanEstudiosCtrl.removeCursoFromLicenciatura);
 router.delete('/admin/licenciatura/eliminarMateria', PlanEstudiosCtrl.removeCursoFromLicenciatura);
+
+// Servicios temporales /////////////////////////////////////////////////////////////////////////////////////////////////
+router.post('/materia/:id_lic', PlanEstudiosCtrl.getCursos);
 router.put('/admin/licenciatura/materias/agregarProfesor/:id_Materia/:claveEmpleado', PlanEstudiosCtrl.asignarProfesorAMateria)
 router.get('/admin/licenciatura/materias/consultarProfesores/:id_materia', PlanEstudiosCtrl.getProfesoresFromCurso)
 router.delete('/admin/licenciatura/materias/removerProfesorFromCurso/:id_materia/:claveEmpleado', PlanEstudiosCtrl.removerProfesorFromCurso)
+router.post('/admin/materias/crear', PlanEstudiosCtrl.crearCurso);
+router.delete('/admin/materias/eliminar/:clave_materia', PlanEstudiosCtrl.eliminarCurso);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
