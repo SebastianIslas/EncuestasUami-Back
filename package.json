@@ -20,6 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.9.1",
     "mongose": "^0.0.2-security",
+    "nodemailer": "^6.9.1",
     "socket.io": "^4.5.1"
   },
   "devDependencies": {
