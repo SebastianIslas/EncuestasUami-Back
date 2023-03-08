@@ -30,7 +30,7 @@ var controller = {
 
       // Validamos que la password coincida
       if (!validPassword) {
-        console.log("Contraseña incorrecta: ", email );
+        console.log("Contraseña incorrecta: ", email);
         return res.status(401).send({ message: "Ocurrió un problema al iniciar sesión." });
       }
 
@@ -38,12 +38,11 @@ var controller = {
       const token = jwt.sign(
         { idUser: admin.numEmpleado, auth: "ADMIN" },
         process.env.SECRET_JWT_SEED,
-        { expiresIn: 3600 }
+        { expiresIn: process.env.JWT_TOKEN_EXPIRES_TIME }
       );
 
       // Enviamos una respuesta correcta con el token
       return res.status(200).send({ message: "Ha ingresado correctamente.", token });
-
     });
   },
 
@@ -144,3 +143,4 @@ var controller = {
 };
 
 module.exports = controller
+

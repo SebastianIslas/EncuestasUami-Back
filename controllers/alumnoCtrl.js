@@ -88,7 +88,7 @@ var controller = {
     const token = jwt.sign({
       alumnoId: alumno.matricula
     }, process.env.SECRET_JWT_SEED, {
-      expiresIn: 3600
+      expiresIn: process.env.JWT_TOKEN_EXPIRES_TIME
     });
     // devolvemos el token con el mensaje 
     return res.status(200).send({ message: "Ha ingresado correctamente.", token });
@@ -237,3 +237,4 @@ var controller = {
 };
 
 module.exports = controller
+
