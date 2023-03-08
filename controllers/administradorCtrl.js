@@ -1,6 +1,3 @@
-const { query } = require("express");
-const req = require("express/lib/request");
-const res = require("express/lib/response");
 const crypto = require("crypto");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -45,6 +42,7 @@ var controller = {
       return res.status(200).send({ message: "Ha ingresado correctamente.", token });
     });
   },
+
 
   // Enviar un mensaje de recuperación de contraseña
   recuperarPasswordAdmin: function(req, res) {
@@ -100,6 +98,7 @@ var controller = {
       }
     });
   },
+
 
   // Cambiar la password 
   reestablecerPasswordAdmin: function(req, res) {
