@@ -1,18 +1,19 @@
 const { Schema, model } = require('mongoose');
 
+
 const EncuestaSchema = Schema({
   periodo: {
     // 22O, 22I
     type: String,
-    unique : true,
+    unique: true,
     required: true
   },
 
   // Posiblemente sea bueno quitar esto
-  licenciatura: [ {
+  licenciatura: [{
     type: Schema.Types.ObjectId,
     ref: 'Licenciatura'
-  } ],
+  }],
 
   /* 
     // Solamente hay un plan de estudio por licenciatura!! 
@@ -30,13 +31,15 @@ const EncuestaSchema = Schema({
     type: Boolean,
     default: true
   },
-  
-  encuestasResueltas: [ {
+
+  encuestasResueltas: [{
     type: Schema.Types.ObjectId,
     ref: 'EncuestaResuelta'
-  } ]
-},{
-  versionKey: false 
+  }]
+}, {
+  versionKey: false
 });
 
-module.exports = model('Encuesta', EncuestaSchema );
+
+module.exports = model('Encuesta', EncuestaSchema);
+

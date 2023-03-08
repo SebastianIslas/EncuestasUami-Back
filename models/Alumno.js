@@ -1,30 +1,30 @@
 const { Schema, model } = require('mongoose');
 
+
 const AlumnoSchema = Schema({
-  
   matricula: {
     type: Number,
     unique: true,
     required: true
   },
 
-  carrera: { 
-    type: Schema.Types.ObjectId, 
+  carrera: {
+    type: Schema.Types.ObjectId,
     ref: 'Licenciatura',
-    required: true 
-  }, 
-  
+    required: true
+  },
+
   email: {
     type: String,
     unique: true,
     required: true
   },
-  
+
   password: {
     type: String,
     required: true
   },
-  
+
   EncuestasResueltas:
     [
       {
@@ -32,8 +32,10 @@ const AlumnoSchema = Schema({
         ref: 'EncuestaResuelta'
       }
     ]
-},{
-  versionKey: false 
+}, {
+  versionKey: false
 });
 
-module.exports = model('Alumno', AlumnoSchema );
+
+module.exports = model('Alumno', AlumnoSchema);
+

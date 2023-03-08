@@ -1,11 +1,12 @@
 const { Router } = require('express');
+const router = Router();
+
 
 const { check } = require('express-validator');
 const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWTAlumno } = require('../middlewares/validar-jwt');
 
-const router = Router();
 
 // Crear un nuevo usuario EN DESARROLLO
 router.post('/new', [
@@ -15,6 +16,7 @@ router.post('/new', [
   validarCampos
 ], crearUsuario);
 
+
 // Login de usuario EN DESARROLLO
 router.post('/', [
   check('email', 'El email es obligatorio').isEmail(),
@@ -22,8 +24,10 @@ router.post('/', [
   validarCampos
 ], loginUsuario);
 
+
 // Validar y revalidar token
 router.get('/renew', validarJWTAlumno, revalidarToken);
+
 
 module.exports = router;
 

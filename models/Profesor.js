@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
-const ProfesorSchema = Schema({
 
+const ProfesorSchema = Schema({
   claveEmpleado: {
     type: Number,
     unique: true,
@@ -12,10 +12,11 @@ const ProfesorSchema = Schema({
     type: String,
     required: true
   },
-  
-},{
+}, {
   versionKey: false,
-  collection: 'profesores' 
+  collection: 'profesores'
 });
 
-module.exports = model('Profesor', ProfesorSchema );
+
+module.exports = model('Profesor', ProfesorSchema);
+
