@@ -30,21 +30,23 @@ function mostCommonCurso(idCursos) {
     return maxEl;
 }
 
-function ObtenerCursosdeLic(idCursos, idCursosLicenciatura) {
+function ObtenerIdCursosdeLic(idCursos, idCursosLicenciatura) {
 
     var idCursoMasVotadosPorLic = {};
     console.log("cursosID:  ", idCursos[0]);
-    console.log("cuesoLicID:", idCursosLicenciatura[0])
+    console.log("cuesoLicID:", idCursosLicenciatura.cursos[0])
 
     for (var x = 0; x < idCursos.length; x++) {
 
-        for (var y = 0; y < idCursosLicenciatura.length; y++) {
-            if (idCursos[x] == idCursosLicenciatura[1][y]) {
+        for (var y = 0; y < idCursosLicenciatura.cursos.length; y++) {
+            console.log("cursosID:  ", idCursos[x]);
+            console.log("cuesoLicID:", idCursosLicenciatura.cursos[y])
+            if (idCursos[x] == idCursosLicenciatura.cursos[y]) {
                 idCursoMasVotadosPorLic.push(idCursos[x]);
                 break;
             }
         }
-        //console.log(idCursoMasVotadosPorLic);
+        console.log("Lista de Curso Liceasdasdas", idCursoMasVotadosPorLic);
         return idCursoMasVotadosPorLic;
     }
 }
@@ -67,23 +69,25 @@ var controller = {
 
         const periodo = req.params.periodo; //Obtener el Periodo
         const clavelicenciatura = req.params.clavelicenciatura; //Obtener la clave Licenciatura
-        const CursosLicenciatura = (await Licenciatura.findOne({ clave: clavelicenciatura }, { cursos: 1 })); //Obtener la Lista de los Curso de la Licenciatura
+        const CursosLicenciatura = (await Licenciatura.findOne({ clave: clavelicenciatura }, { "clave": false, "_id": false, "encuestas": false, "nombre": false })); //Obtener la Lista de los Curso de la Licenciatura
 
         //console.log(periodo);
         //console.log(clavelicenciatura);
-        console.log("Cursos Lic: ", CursosLicenciatura);
+        //console.log("Cursos Lic: ", CursosLicenciatura);
 
         const ListaCursos = (await EncuestaResuelta.find({ periodo }, { "cursosSeleccionados.curso": 1 }));
         const idCursos = ListaCursos.map(e => { return e.cursosSeleccionados }).flat().map(e => e.curso).filter(e => { return e !== undefined })
-            //console.log("Curso Enuestas", idCursos);
-        const idCursoMasVotadosPorLic = ObtenerCursosdeLic(idCursos, CursosLicenciatura);
+
+        const idCursoMasVotadosPorLic = ObtenerIdCursosdeLic(idCursos, CursosLicenciatura);
         const idCursoMasVotado = mostCommonCurso(idCursoMasVotadosPorLic);
         const cursoMasVotado = (await Curso.findOne({ "_id": idCursoMasVotado }, { "profesores": 0, "_id": 0 }))
 
+        if (cursoMasVotado != null) {
+            return res.status(200).send(cursoMasVotado);
+        } else {
+            return res.status(404).send({ mensaje: " No hay Votada para la licenciatura con clave " + clavelicenciatura })
+        }
 
-        return res.status(200).send(cursoMasVotado);
-
-        //return res.status(200).send({ mensaje: " Estadistica mas Votada por licenciatura" })
     }
 
 }
