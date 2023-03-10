@@ -15,6 +15,6 @@ const AdministradorSchema = Schema({
     type: String,
     required: true
   },
-});
+}, { collection: 'administradores' });
 
 module.exports = model('Administrador', AdministradorSchema);
