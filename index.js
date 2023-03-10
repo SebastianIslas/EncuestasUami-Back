@@ -58,6 +58,8 @@ router.use('/auth', require('./routes/auth'));
 router.use('/alumno', require('./routes/alumno'));
 router.use('/administrador', require('./routes/administrador'));
 
+// Rutas de Azael
+router.use('/azael', require('./routes/estadisticas'))
 
 // URL base
 app.use(process.env.BASE_URL, router);

@@ -10,6 +10,8 @@ const Curso = require("../models/Curso")
 
 
 var controller = {
+
+  
   getEncuestaRes: async function(req, res) {
     const matricula = req.body.matricula
     const periodo = req.body.periodo
