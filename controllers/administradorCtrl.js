@@ -1,6 +1,3 @@
-const { query } = require("express");
-const req = require("express/lib/request");
-const res = require("express/lib/response");
 const crypto = require("crypto");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -30,7 +27,7 @@ var controller = {
 
       // Validamos que la password coincida
       if (!validPassword) {
-        console.log("Contraseña incorrecta: ", email );
+        console.log("Contraseña incorrecta: ", email);
         return res.status(401).send({ message: "Ocurrió un problema al iniciar sesión." });
       }
 
@@ -38,14 +35,14 @@ var controller = {
       const token = jwt.sign(
         { idUser: admin.numEmpleado, auth: "ADMIN" },
         process.env.SECRET_JWT_SEED,
-        { expiresIn: 3600 }
+        { expiresIn: process.env.JWT_TOKEN_EXPIRES_TIME }
       );
 
       // Enviamos una respuesta correcta con el token
       return res.status(200).send({ message: "Ha ingresado correctamente.", token });
-
     });
   },
+
 
   // Enviar un mensaje de recuperación de contraseña
   recuperarPasswordAdmin: function(req, res) {
@@ -102,6 +99,7 @@ var controller = {
     });
   },
 
+
   // Cambiar la password 
   reestablecerPasswordAdmin: function(req, res) {
     const numEmpleado = req.body.numEmpleado;
@@ -144,3 +142,4 @@ var controller = {
 };
 
 module.exports = controller
+

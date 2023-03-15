@@ -2,39 +2,35 @@ const { response } = require('express');
 const jwt = require('jsonwebtoken');
 
 
-const validarJWT = ( req, res = response, next ) => {
+const validarJWTAlumno = (req, res = response, next) => {
+  // Obtener el token del header del request en el campo authorization
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    const token = req.header('x-token');
+  if (!token) {
+    return res.status(401).json({
+      message: 'Falta proporcionar token',
+      response: false
+    });
+  }
 
-    if( !token  ) {
-        return res.status(401).json({
-            ok: false,
-            msg: 'error en el token'
-        });
-    }
+  jwt.verify(token, process.env.SECRET_JWT_SEED, (err, token_body) => {
+    console.log(err);
 
-    try {
+    if (err) return res.sendStatus(403).json({
+      message: 'El token no es correcto',
+      response: false
+    });
 
-        const { uid, name } = jwt.verify( token, process.env.SECRET_JWT_SEED );
-        req.uid  = uid;
-        req.name = name;
+    console.log(token_body);
+    req.token_body = token_body;
+  });
 
-        
-    } catch (error) {
-        return res.status(401).json({
-            ok: false,
-            msg: 'Token no válido'
-        });
-    }
-
-
-    
-    // TODO OK!
-    next();
+  next();
 }
 
 
 module.exports = {
-    validarJWT
+  validarJWTAlumno
 }
 

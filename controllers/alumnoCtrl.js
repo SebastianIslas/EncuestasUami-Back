@@ -1,39 +1,31 @@
-const { query } = require("express");
-const req = require("express/lib/request");
-const res = require("express/lib/response");
 const crypto = require("crypto");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-
 const Licenciatura = require("../models/Licenciatura");
 const Alumno = require("../models/Alumno");
-const EncuestaResuelta = require('../models/EncuestaResuelta');
 const RecuperacionPassword = require("../models/RecuperacionPassword");
 
 const emailService = require("../helpers/send-email");
 
 var controller = {
-  recuperarAlumno: function (req, res) {
-				let matricula = req.params.matricula;
-				var query = {
-					matricula: matricula
-				};
-				Alumno.findOne(query).populate({path:'carrera', select:'nombre clave -_id'}).exec((err, result) => {
-					if (err)
-						return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
-					if (!result) {
-						return res.status(404).send({ message: 'El alumno no existe.' });
-					}
-					return res.status(200).send(result);
-				});
-	},
+  recuperarAlumno: function(req, res) {
+    let matricula = req.params.matricula;
+    var query = {
+      matricula: matricula
+    };
 
-  /**
-   * Crea la cuenta para un alumno
-   * @param {} req 
-   * @param {*} res 
-   */
+    Alumno.findOne(query).populate({ path: 'carrera', select: 'nombre clave -_id' }).exec((err, result) => {
+      if (err)
+        return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+      if (!result) {
+        return res.status(404).send({ message: 'El alumno no existe.' });
+      }
+      return res.status(200).send(result);
+    });
+  },
+
+
   crearAlumno: function(req, res) {
     const matricula = req.body.matricula;
     const carrera = req.body.clave_lic;
@@ -50,8 +42,10 @@ var controller = {
       if (!result) {
         return res.status(404).send({ message: 'La licenciatura no existe, no se pudo realizar el registro.' });
       }
+
       const salt = bcrypt.genSaltSync();
       const passwordEncrypt = bcrypt.hashSync(password, salt);
+
       let alumno = new Alumno({ matricula: matricula, carrera: result._id, email: email, password: passwordEncrypt });
 
       alumno.save((err, alm) => {
@@ -69,51 +63,38 @@ var controller = {
     });
   },
 
+
   // función que realiza el login para el Alumno
   logInAlumno: async function(req, res) {
     const body = req.body;
     const password = body.password;
+
     const alumno = await Alumno.findOne({ email: body.email });
+
     // verificamos que exista el alumno
     if (!alumno) {
       return res.status(404).send({ message: "No se ha podido encontrar al alumno." });
     }
+
     const hashPassword = await alumno.get('password');
     const validPassword = bcrypt.compareSync(password, hashPassword);
+
     // validamos que la password coincida
     if (!validPassword) {
       return res.status(401).send({ message: "Datos incorrectos." });
     }
-    //creamos el token
+
+    // creamos el token
     const token = jwt.sign({
       alumnoId: alumno.matricula
     }, process.env.SECRET_JWT_SEED, {
-      expiresIn: 3600
+      expiresIn: process.env.JWT_TOKEN_EXPIRES_TIME
     });
+
     // devolvemos el token con el mensaje 
     return res.status(200).send({ message: "Ha ingresado correctamente.", token });
   },
 
-  obtenerEncuestAlumno: function(req, res) {
-    const matricula = req.params.matricula;
-    const id_licenciatura = req.params.id_licenciatura;
-    Alumno.findOne({ matricula: matricula, carrera: id_licenciatura })
-      .populate('EncuestasResueltas')
-      .exec()
-      .then(alumno => {
-        if (!alumno) {
-          return res.status(404).json({
-            message: "Alumno no encontrado"
-          });
-        }
-        res.status(200).send(alumno)
-      })
-      .catch(err => {
-        res.status(500).json({
-          error: err
-        });
-      });
-  },
 
   obtenerEncuestAlumno: function(req, res) {
     const matricula = req.params.matricula;
@@ -128,7 +109,7 @@ var controller = {
             message: "Alumno no encontrado"
           });
         }
-        res.status(200).send(alumno)
+        res.status(200).send(alumno);
       })
       .catch(err => {
         res.status(500).json({
@@ -136,6 +117,30 @@ var controller = {
         });
       });
   },
+
+
+  obtenerEncuestAlumno: function(req, res) {
+    const matricula = req.params.matricula;
+    const id_licenciatura = req.params.id_licenciatura;
+
+    Alumno.findOne({ matricula: matricula, carrera: id_licenciatura })
+      .populate('EncuestasResueltas')
+      .exec()
+      .then(alumno => {
+        if (!alumno) {
+          return res.status(404).json({
+            message: "Alumno no encontrado"
+          });
+        }
+        res.status(200).send(alumno);
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: err
+        });
+      });
+  },
+
 
   // Enviar un mensaje de recuperación de contraseña
   recuperarPassword: function(req, res) {
@@ -144,15 +149,15 @@ var controller = {
     // TODO: validar matrícula
 
     // Obtener el alumno de la BD
-    let alumnoQuery = Alumno.findOne({ matricula: matricula }, 'email')
+    let alumnoQuery = Alumno.findOne({ matricula: matricula }, 'email');
 
     alumnoQuery.exec(function(err, alumno) {
       if (err) {
-        res.status(400).send(err)
+        res.status(400).send(err);
       };
 
       if (!alumno) {
-        res.status(400).send(err)
+        res.status(400).send(err);
       }
 
       console.log("Enviando correo de recuperación a: " + alumno.email);
@@ -179,18 +184,19 @@ var controller = {
         } else {
           console.error("Creación de codigo de recuperación de alumno con matrícula: " + matricula);
         }
-      })
+      });
 
       // Enviar el correo
       try {
         emailService.sendEmailRecuperacionAlumno(alumno.email, codigoRecuperacion);
-        res.status(200).send(true)
+        res.status(200).send(true);
       } catch (error) {
         console.error("Error con nodemailer al enviar correo a " + alumno.email);
-        res.status(400).send(error)
+        res.status(400).send(error);
       }
-    })
+    });
   },
+
 
   // Cambiar la password 
   reestablecerPassword: function(req, res) {
@@ -228,7 +234,7 @@ var controller = {
         }
 
         if (alumno) {
-          console.log("Cambio de datos exitoso para: " + matricula)
+          console.log("Cambio de datos exitoso para: " + matricula);
           res.status(200).send(true);
         }
       });
@@ -237,3 +243,4 @@ var controller = {
 };
 
 module.exports = controller
+
