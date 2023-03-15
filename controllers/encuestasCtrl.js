@@ -123,7 +123,7 @@ var controller = {
 				});
 			},
         
-			},
+			
 			crearEncuesta: function (req, res) {
 				let periodo = req.body.periodo;
 				console.log(req.params.sendStatus);
