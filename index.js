@@ -50,6 +50,9 @@ router.use(function(req, _, next) {
 });
 
 
+router.use('/', require('./routes/auth'));
+
+
 // Rutas
 // Rutas para el JWT
 router.use('/auth', require('./routes/auth'));
