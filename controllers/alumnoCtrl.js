@@ -14,20 +14,20 @@ const RecuperacionPassword = require("../models/RecuperacionPassword");
 const emailService = require("../helpers/send-email");
 
 var controller = {
-  recuperarAlumno: function(req, res) {
-    let matricula = req.params.matricula;
-    var query = {
-      matricula: matricula
-    };
-    Alumno.findOne(query).populate({ path: 'carrera', select: 'nombre clave -_id' }).exec((err, result) => {
-      if (err)
-        return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
-      if (!result) {
-        return res.status(404).send({ message: 'El alumno no existe.' });
-      }
-      return res.status(200).send(result);
-    });
-  },
+  recuperarAlumno: function (req, res) {
+				let matricula = req.params.matricula;
+				var query = {
+					matricula: matricula
+				};
+				Alumno.findOne(query).populate({path:'carrera', select:'nombre clave -_id'}).exec((err, result) => {
+					if (err)
+						return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+					if (!result) {
+						return res.status(404).send({ message: 'El alumno no existe.' });
+					}
+					return res.status(200).send(result);
+				});
+	},
 
   /**
    * Crea la cuenta para un alumno

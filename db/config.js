@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+mongoose.set('strictQuery',false);
 
 
 const dbConnection = async() => {
@@ -16,7 +16,7 @@ const dbConnection = async() => {
 
     } catch (error) {
         console.log(error);
-        throw new Error('Error a la hora de inicializad DB');
+        throw new Error('Error a la hora de inicializar DB');
     }
 
 

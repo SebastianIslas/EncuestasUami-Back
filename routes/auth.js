@@ -74,16 +74,14 @@ var EncuestasCtrl = require('../controllers/encuestasCtrl');
 router.post('/administrador/encuesta/iniciar', EncuestasCtrl.iniciarEncuesta);
 router.patch('/administrador/encuesta/desactivar/:periodo', EncuestasCtrl.desactivarEncuesta);
 router.get('/administrador/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta); // Servicio temporal
-
+router.get('/administrador/encuesta/activaLic/:claveLic', EncuestasCtrl.consultarCursosEncuestaActivaLic);
+router.get('/administrador/encuesta/desactivada/:periodo', EncuestasCtrl.consultarEncuestaDesactivadaPeriodo);
 
 var EncuestasResCtrl = require('../controllers/encuestasResCtrl');
 router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
 router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
-
-var AdministradorCtrl = require('../controllers/administradorCtrl');
-router.get('/administrador/login', AdministradorCtrl.loginAdmin);
-router.get('/administrador/login/recuperar/:numEmpleado', AdministradorCtrl.recuperarPasswordAdmin);
-router.post('/administrador/login/reestablecer', AdministradorCtrl.reestablecerPasswordAdmin);
+router.get('/alumno/ultimaEncuestaRes/:periodo/:matricula', EncuestasResCtrl.consultarUltimaEncuestaRes); 
+router.get('/alumno/encuestasRes/:matricula', EncuestasResCtrl.consultarEncuestasRes); 
 
 var ProfesorCtrl = require('../controllers/profesorCtrl');
 router.post('/admin/profesor/crearProfesor', ProfesorCtrl.crearProfesor);
