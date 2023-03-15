@@ -74,11 +74,13 @@ var EncuestasCtrl = require('../controllers/encuestasCtrl');
 router.post('/administrador/encuesta/iniciar', EncuestasCtrl.iniciarEncuesta);
 router.patch('/administrador/encuesta/desactivar/:periodo', EncuestasCtrl.desactivarEncuesta);
 router.get('/administrador/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta); // Servicio temporal
-
+router.post('/admin/encuesta', EncuestasCtrl.crearEncuesta);
+router.delete('/admin/encuesta/:idEncuesta', EncuestasCtrl.eliminarEncuesta);
+router.put('/admin/encuesta/:idEncuesta', EncuestasCtrl.editarEncuesta);
 
 var EncuestasResCtrl = require('../controllers/encuestasResCtrl');
-router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
-router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
+//router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
+router.post('/encuestaResuelta', EncuestasResCtrl.guardarEncuestaResuelta);
 
 var AdministradorCtrl = require('../controllers/administradorCtrl');
 router.get('/administrador/login', AdministradorCtrl.loginAdmin);

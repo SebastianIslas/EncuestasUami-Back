@@ -108,7 +108,57 @@ var controller = {
 				});
 				
 			},
-        
+
+			guardarEncuestaResuelta: async function (req, res) {
+				let matricula = req.body.matricula;
+                let periodo = req.body.encuesta;
+				let cursos = req.body.cursosSeleccionados;
+
+				let cursosClave = cursos.map(c => c.claveUEA);
+                let cursosId = (await Curso.find({'clave': { $in: cursosClave}},{ _id: 1})).map(c => c._id);
+				
+				//Validar que todos los cursos seleccionados existan en la base de datos
+				if(cursosId.length != cursosClave.length)
+					return res.status(404).send({message: "Algun curso seleccionado es invalido o esta duplicado"});
+
+				let idEncuesta = (await Encuesta.findOne({periodo: periodo}));
+				if (!idEncuesta)
+					return res.status(404).send({message: "No se ha encontrado la encuesta"});
+				console.log(idEncuesta.maxMaterias);
+				if (cursosId.length > idEncuesta.maxMaterias)
+					return res.status(404).send({message: "Maximo de cursos permitidos superado "});
+	
+
+				let idAlumno = (await Alumno.findOne({matricula: matricula}));
+				if (!idAlumno)
+					return res.status(404).send({message: "No se ha encontrado el alumno"});
+
+				for(i=0; i<cursos.length; i++){
+					cursos[i].claveUEA = cursosId[i]
+				}
+			
+				let encuestaResuelta = new EncuestaResuelta ({alumno: idAlumno._id, encuesta: idEncuesta._id, cursosSeleccionados: cursos})	
+
+				encuestaResuelta.save((err, encR) =>{
+					if (err) {
+						return res.status(500).send({ message: "! Error en la base de datos !" , errorContent: err});
+					}
+					if (encR == null) {
+						return res.status(404).send({message: "ERROR."});
+					} else {
+						Encuesta.findOne({_id: idEncuesta}).exec((err, encuesta) => {
+							if (err) return res.send(err);
+							encuesta.encuestasResueltas.push(encR);
+							encuesta.save(function(err) {
+								if (err) return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+								return res.status(200).send({ message: "Encuesta resuelta guardada con exito" });
+							});
+						});
+						
+					}
+				});
+				
+			}
 
 };
 
