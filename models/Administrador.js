@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 
+
 const AdministradorSchema = Schema({
   numEmpleado: {
     type: Number,
@@ -17,4 +18,6 @@ const AdministradorSchema = Schema({
   },
 }, { collection: 'administradores' });
 
+
 module.exports = model('Administrador', AdministradorSchema);
+

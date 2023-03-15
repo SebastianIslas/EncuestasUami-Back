@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 
+
 const RecuperacionPasswordSchema = Schema({
   idUsuario: {
     type: String,
@@ -12,8 +13,8 @@ const RecuperacionPasswordSchema = Schema({
     unique: true,
     required: true
   },
-}, {
-  versionKey: false
-}, { collection: 'recuperacionPassword' });
+}, { versionKey: false }, { collection: 'recuperacionPassword' });
+
 
 module.exports = model('RecuperacionPassword', RecuperacionPasswordSchema);
+

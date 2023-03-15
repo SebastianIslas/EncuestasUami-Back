@@ -1,7 +1,8 @@
 // Enviar correos
 const nodemailer = require("nodemailer");
 
-require('dotenv').config()
+require('dotenv').config();
+
 
 // Un transporter es la entidad que puede enviar correos
 let transporter = nodemailer.createTransport({
@@ -12,7 +13,8 @@ let transporter = nodemailer.createTransport({
     user: process.env.SMTP_USERNAME,
     pass: process.env.SMTP_PASSWORD,
   },
-})
+});
+
 
 function sendEmailRecuperacionAlumno(destination, codigoRecuperacion) {
   var message = {
@@ -26,6 +28,8 @@ function sendEmailRecuperacionAlumno(destination, codigoRecuperacion) {
   transporter.sendMail(message);
 }
 
+
 module.exports = {
   sendEmailRecuperacionAlumno
 }
+

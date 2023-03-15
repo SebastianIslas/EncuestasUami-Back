@@ -1,43 +1,71 @@
-
 const express = require('express');
+const router = express.Router();
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+
 const { dbConnection } = require('./db/config');
-var bodyParser = require('body-parser')
-
-require('dotenv').config();
-
-// Crear el servidor/aplicación de express
+const bodyParser = require('body-parser')
+    // Crear el servidor/aplicación de express
 const app = express();
 
-// Base de datos
+// Obtener variable del archivo .env
+require('dotenv').config();
+
+// Connectarse a la base de datos
 dbConnection();
 
-
 // Directorio Público
-app.use( express.static('public') );
+app.use(express.static('public'));
 
 // CORS
-app.use( cors() );
+app.use(cors());
 
 // Lectura y parseo del body
-app.use( express.json() );
-app.use(express.urlencoded({extended: true} ));
-
-// parse various different custom JSON types as JSON
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// Parser de diferentes versiones de JSON
 app.use(bodyParser.json({ type: 'application/*+json' }))
-
-// parse some custom thing into a Buffer
+    // Parser de archivos RAW
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
-
-// parse an HTML body into a string
+    // Parser de archivos HTML
 app.use(bodyParser.text({ type: 'text/html' }))
-
+    // Encoding del parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+// Log de cada petición realizada
+router.use(function(req, _, next) {
+    var body = null;
+    try {
+        body = req.body;
+    } finally {
+        console.log({
+            'URL': req.originalUrl,
+            'Body': body,
+            'Time': Date.now()
+        });
+    }
+
+    next();
+});
+
+
 // Rutas
-app.use( '/api/encuestas/v1/', require('./routes/auth') );
+// Rutas para el JWT
+router.use('/auth', require('./routes/auth'));
+
+// Rutas basadas en el rol
+router.use('/alumno', require('./routes/alumno'));
+router.use('/administrador', require('./routes/administrador'));
+
+// Rutas de Azael
+router.use('/azael', require('./routes/estadisticas'))
+
+// URL base
+app.use(process.env.BASE_URL, router);
 
 
-app.listen( process.env.PORT, () => {
-    console.log(`Servidor corriendo en puerto ${ process.env.PORT }`);
+// Correr el servidor en el puerto indicado
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor corriendo en puerto ${process.env.PORT}`);
 });

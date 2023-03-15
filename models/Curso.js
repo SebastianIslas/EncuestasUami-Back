@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 const Licenciatura = require("./Licenciatura");
 
+
 const CursoSchema = Schema({
   nombre: {
     type: String,
@@ -17,24 +18,27 @@ const CursoSchema = Schema({
     default: 'Obligatoria'
   },
 
-  profesores: [ {
+  profesores: [{
     type: Schema.Types.ObjectId,
-  ref: 'Profesor'
-  } ]
+    ref: 'Profesor'
+  }]
 
-},  {
-  versionKey: false 
+}, {
+  versionKey: false
 });
 
-CursoSchema.post('findOneAndDelete',  function(doc) {
+
+CursoSchema.post('findOneAndDelete', function(doc) {
   console.log(doc)
   console.log('%s has been removed', doc._id);
-  Licenciatura.updateOne( { id: 0  }, {
-    $pullAll: { cursos: [ doc._id ] },
+  Licenciatura.updateOne({ id: 0 }, {
+    $pullAll: { cursos: [doc._id] },
   }).exec((err, res) => {
     console.log(err)
   }
   )
 });
 
-module.exports = model('Curso', CursoSchema );
+
+module.exports = model('Curso', CursoSchema);
+
