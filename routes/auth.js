@@ -83,10 +83,8 @@ router.get('/administrador/encuesta/desactivada/:periodo', EncuestasCtrl.consult
 var EncuestasResCtrl = require('../controllers/encuestasResCtrl');
 //router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
 router.post('/encuestaResuelta', EncuestasResCtrl.guardarEncuestaResuelta);
-//// 
 //router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia); // Servicio temporal
 router.post('/alumno/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
-///
 router.get('/alumno/ultimaEncuestaRes/:periodo/:matricula', EncuestasResCtrl.consultarUltimaEncuestaRes); 
 router.get('/alumno/encuestasRes/:matricula', EncuestasResCtrl.consultarEncuestasRes); 
 
