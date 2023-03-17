@@ -42,12 +42,8 @@ var controller = {
 
 
   getCursos: function(req, res) {
-    let claveLic = req.body.claveLic;
-    var query = {
-      clave: claveLic
-    };
 
-    Licenciatura.findOne(query, { cursos: 1, _id: 0 }).populate({ path: 'cursos', select: '-_id' }).exec((err, result) => {
+    Curso.find().populate().exec((err, result) => {
       if (err)
         return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
       if (!result) {

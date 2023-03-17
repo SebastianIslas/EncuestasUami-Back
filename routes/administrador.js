@@ -43,6 +43,8 @@ router.delete('/profesor/eliminarProfesor/:claveEmpleado', ProfesorCtrl.eliminar
 
 var CursoCtrl = require('../controllers/cursosCtrl');
 router.put('/curso/:idCurso', CursoCtrl.editarCurso);
+router.get('/cursos', CursoCtrl.getCursos);
+
 
 
 module.exports = router;

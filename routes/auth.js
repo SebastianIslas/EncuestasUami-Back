@@ -96,5 +96,6 @@ router.delete('/admin/profesor/eliminarProfesor/:claveEmpleado', ProfesorCtrl.el
 
 var CursoCtrl = require('../controllers/cursosCtrl');
 router.put('/admin/curso/:idCurso', CursoCtrl.editarCurso);
+router.get('/admin/cursos', CursoCtrl.getCursos);
 
 module.exports = router;

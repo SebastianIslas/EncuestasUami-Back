@@ -284,7 +284,7 @@ var controller = {
 
   // Remueve completamente el curso
   eliminarCurso: function(req, res) {
-    let clave = req.params.clave_curso;
+    let clave = req.params.clave_materia;
 
     Curso.findOneAndDelete({ clave: clave }).exec((err, curso) => {
       if (err) return res.status(404).send({ message: 'Ha ocurrido un error' });
