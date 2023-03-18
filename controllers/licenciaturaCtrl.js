@@ -133,8 +133,9 @@ var controller = {
         });
       }
     });
-
   },
+
+
   crearCurso: function(req, res) {
     let nombreUEA = req.body.nombre_UEA;
     let claveUEA = req.body.clave;
@@ -152,6 +153,8 @@ var controller = {
       }
     });
   },
+
+
   agregarMateriaExistenteALicenciatura: function(req, res) {
     let claveLic = req.params.id_lic;
     let claveUEA = req.params.id_Materia;
@@ -177,8 +180,9 @@ var controller = {
         });
       }
     });
-
   },
+
+
   asignarProfesorAMateria: function(req, res) {
     let claveUEA = req.params.id_Materia;
     let claveProfe = req.params.claveEmpleado

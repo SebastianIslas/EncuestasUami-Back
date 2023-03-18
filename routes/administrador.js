@@ -34,6 +34,11 @@ var EncuestasCtrl = require('../controllers/encuestasCtrl');
 router.post('/encuesta/iniciar', EncuestasCtrl.iniciarEncuesta);
 router.patch('/encuesta/desactivar/:periodo', EncuestasCtrl.desactivarEncuesta);
 router.get('/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta);
+router.post('/encuesta', EncuestasCtrl.crearEncuesta);
+router.delete('/encuesta/:idEncuesta', EncuestasCtrl.eliminarEncuesta);
+router.put('/encuesta/:idEncuesta', EncuestasCtrl.editarEncuesta);
+router.get('/encuesta/activaLic/:claveLic', EncuestasCtrl.consultarCursosEncuestaActivaLic);
+router.get('/encuesta/desactivada/:periodo', EncuestasCtrl.consultarEncuestaDesactivadaPeriodo);
 
 
 var ProfesorCtrl = require('../controllers/profesorCtrl');
