@@ -3,6 +3,7 @@ mongoose.set('strictQuery',false);
 
 
 
+
 const dbConnection = async () => {
   try {
     await mongoose.connect(process.env.BD_CNN, {
