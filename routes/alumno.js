@@ -10,8 +10,9 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 const AlumnoCtrl = require('../controllers/alumnoCtrl');
 router.post('/login', AlumnoCtrl.logInAlumno);
 router.get('/login/recuperar/:matricula', AlumnoCtrl.recuperarPassword);
-router.post('/reestablecer', AlumnoCtrl.reestablecerPassword);
+router.post('/login/reestablecer', AlumnoCtrl.reestablecerPassword);
 router.post('/crear', AlumnoCtrl.crearAlumno);
+router.post('/alumno/crearAlumno', AlumnoCtrl.crearAlumno);
 router.get('/:matricula', AlumnoCtrl.recuperarAlumno);
 router.get('/encuesta/:matricula/:id_licenciatura', AlumnoCtrl.obtenerEncuestAlumno);
 
@@ -19,7 +20,9 @@ router.get('/encuesta/:matricula/:id_licenciatura', AlumnoCtrl.obtenerEncuestAlu
 const EncuestasResCtrl = require('../controllers/encuestasResCtrl');
 router.post('/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia);
 router.post('/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
-
+router.post('/encuestaResuelta', EncuestasResCtrl.guardarEncuestaResuelta);
+router.get('/ultimaEncuestaRes/:periodo/:matricula', EncuestasResCtrl.consultarUltimaEncuestaRes);
+router.get('/encuestasRes/:matricula', EncuestasResCtrl.consultarEncuestasRes);
 
 module.exports = router;
 
