@@ -39,6 +39,7 @@ router.get('/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta);
 var ProfesorCtrl = require('../controllers/profesorCtrl');
 router.post('/profesor/crearProfesor', ProfesorCtrl.crearProfesor);
 router.delete('/profesor/eliminarProfesor/:claveEmpleado', ProfesorCtrl.eliminarProfesor);
+router.get('/profesores', ProfesorCtrl.getProfesores);
 
 
 var CursoCtrl = require('../controllers/cursosCtrl');

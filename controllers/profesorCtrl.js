@@ -38,6 +38,19 @@ var controller = {
       });
     });
   },
+  
+  //Obtiene todos los profesores de la coleccion
+  getProfesores: function(req, res) {
+    Profesor.find().populate().exec((err, result) => {
+      if (err)
+      return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+      if (!result) {
+        return res.status(404).send({ message: 'No hay profesores que mostrar.' });
+      }
+      
+      return res.status(200).send(result);
+    });
+  }
 };
 
 
