@@ -23,6 +23,18 @@ var controller = {
     });
   },
 
+  getLicenciaturas: function(req, res) {
+    Licenciatura.find().populate().exec((err, result) => {
+      if (err)
+        return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+
+      if (!result) {
+        return res.status(404).send({ message: 'No hay Licenciaturas que mostrar.' });
+      }
+
+      return res.status(200).send(result);
+    });
+  },
 
   agregarLicenciatura: function(req, res) {
     let nombreLic = req.body.nombreLic;

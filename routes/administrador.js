@@ -28,6 +28,7 @@ router.delete('/licenciatura/materias/removerProfesorFromCurso/:id_materia/:clav
 router.post('/materia/:id_lic', PlanEstudiosCtrl.getCursos);
 router.post('/materias/crear', PlanEstudiosCtrl.crearCurso);
 router.delete('/materias/eliminar/:clave_materia', PlanEstudiosCtrl.eliminarCurso);
+router.get('/licenciaturas', PlanEstudiosCtrl.getLicenciaturas);
 
 
 var EncuestasCtrl = require('../controllers/encuestasCtrl');
