@@ -64,16 +64,13 @@ var controller = {
     Licenciatura.findOne(query, { cursos: 1, _id: 0 }).populate({ path: 'cursos', select: '-_id' }).exec((err, result) => {
       // XXX: luis-barrera, aquí hice cambios en los if, posibles errores
       if (err)
-        return res.status(200).send(result);
-
+        return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
       if (!result) {
         return res.status(404).send({ message: 'No hay cursos que mostrar.' });
       }
-
-      return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+      return res.status(200).send(result);
     });
   },
-
 
   editarLicenciatura: function(req, res) {
     let idLic = req.params.idLic;
@@ -274,10 +271,11 @@ var controller = {
 
   // Remueve el curso asociado a una licenciatura ( de la lista de licenciaturas )
   removeCursoFromLicenciatura: function(req, res) {
+    console.log("ENTRO");
     let claveLic = req.body.clave_lic;
     let claveCurso = req.body.clave_curso;
     let query = { clave: claveCurso };
-
+    console.log("query");
     Curso.findOne(query).exec((err, curso) => {
       if (err)
         return res.status(500).send({ message: ' ! Error en la base de datos ! ' });

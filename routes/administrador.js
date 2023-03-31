@@ -21,11 +21,10 @@ router.delete('/licenciatura/:idLic', PlanEstudiosCtrl.eliminarLicenciatura);
 router.get('/licenciatura/:id_lic', PlanEstudiosCtrl.getLicenciatura);
 router.post('/licenciatura/agregarYCrearMateriaALic/:id_lic', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
 router.delete('/licenciatura/eliminarMateria', PlanEstudiosCtrl.removeCursoFromLicenciatura);
-router.delete('/licenciatura/eliminarMateria', PlanEstudiosCtrl.removeCursoFromLicenciatura);
 router.put('/licenciatura/materias/agregarProfesor/:id_Materia/:claveEmpleado', PlanEstudiosCtrl.asignarProfesorAMateria)
 router.get('/licenciatura/materias/consultarProfesores/:id_materia', PlanEstudiosCtrl.getProfesoresFromCurso)
 router.delete('/licenciatura/materias/removerProfesorFromCurso/:id_materia/:claveEmpleado', PlanEstudiosCtrl.removerProfesorFromCurso)
-router.post('/materia/:id_lic', PlanEstudiosCtrl.getCursos);
+router.get('/materia/:id_lic', PlanEstudiosCtrl.getCursos);
 router.post('/materias/crear', PlanEstudiosCtrl.crearCurso);
 router.delete('/materias/eliminar/:clave_materia', PlanEstudiosCtrl.eliminarCurso);
 router.get('/licenciaturas', PlanEstudiosCtrl.getLicenciaturas);

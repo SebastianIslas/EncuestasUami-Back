@@ -128,14 +128,14 @@ var controller = {
 
   crearEncuesta: function(req, res) {
     let periodo = req.body.periodo;
-    console.log(req.params.sendStatus);
-    let licenciaturas = req.body.licenciatura;
+//    let licenciaturas = req.body.licenciatura;
     let max_materias = req.body.max_materias;
     let activo = req.body.activo;
-    console.log(licenciaturas);
+  //  console.log(licenciaturas);
     //**BUSCAR ID'S DE LICENCIATURAS RECIBIDAS */
     let idsLic;
-    Licenciatura.find({ clave: { $in: licenciaturas } }, { _id: 1 }).exec((err, lics) => {
+    Licenciatura.find({}, { _id: 1 }).exec((err, lics) => {
+//    Licenciatura.find(clave: { $in: licenciaturas } },{_id: 1}).exec((err, lics) => { //Act solo ciertas licss
       idsLic = lics;
       if (lics.length == 0)
         return res.status(404).send({ message: "Licenciaturas no encontradas" });
@@ -152,6 +152,7 @@ var controller = {
         } else if (req.params.sendStatus == undefined) {
           return res.status(200).send({ message: "La encuesta se ha creado de manera correcta" });
         }
+        
       });
     });
   },
