@@ -17,10 +17,10 @@ var PlanEstudiosCtrl = require('../controllers/licenciaturaCtrl');
 router.post('/licenciatura/crear', PlanEstudiosCtrl.agregarLicenciatura)
 router.put('/licenciatura/agregarMateriaExistenteALic/:id_lic/:id_Materia', PlanEstudiosCtrl.agregarMateriaExistenteALicenciatura);
 router.put('/licenciatura/:idLic', PlanEstudiosCtrl.editarLicenciatura);
+router.delete('/licenciatura/eliminarMateria', PlanEstudiosCtrl.removeCursoFromLicenciatura);
 router.delete('/licenciatura/:idLic', PlanEstudiosCtrl.eliminarLicenciatura);
 router.get('/licenciatura/:id_lic', PlanEstudiosCtrl.getLicenciatura);
 router.post('/licenciatura/agregarYCrearMateriaALic/:id_lic', PlanEstudiosCtrl.postAgregarMateriaALicenciatura);
-router.delete('/licenciatura/eliminarMateria', PlanEstudiosCtrl.removeCursoFromLicenciatura);
 router.put('/licenciatura/materias/agregarProfesor/:id_Materia/:claveEmpleado', PlanEstudiosCtrl.asignarProfesorAMateria)
 router.get('/licenciatura/materias/consultarProfesores/:id_materia', PlanEstudiosCtrl.getProfesoresFromCurso)
 router.delete('/licenciatura/materias/removerProfesorFromCurso/:id_materia/:claveEmpleado', PlanEstudiosCtrl.removerProfesorFromCurso)
