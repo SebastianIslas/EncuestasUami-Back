@@ -213,7 +213,7 @@ var controller = {
           c.profesores.push(prof);
           c.save(function(err) {
             if (err) return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
-            return res.status(200).send({ message: "El curso ha sido actualizado de manera correcta" });
+            return res.status(200).send({ message: "El profesor ha sido asignado de manera correcta" });
           });
         });
       }

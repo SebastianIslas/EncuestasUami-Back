@@ -128,14 +128,10 @@ var controller = {
 
   crearEncuesta: function(req, res) {
     let periodo = req.body.periodo;
-//    let licenciaturas = req.body.licenciatura;
     let max_materias = req.body.max_materias;
     let activo = req.body.activo;
-  //  console.log(licenciaturas);
-    //**BUSCAR ID'S DE LICENCIATURAS RECIBIDAS */
     let idsLic;
     Licenciatura.find({}, { _id: 1 }).exec((err, lics) => {
-//    Licenciatura.find(clave: { $in: licenciaturas } },{_id: 1}).exec((err, lics) => { //Act solo ciertas licss
       idsLic = lics;
       if (lics.length == 0)
         return res.status(404).send({ message: "Licenciaturas no encontradas" });
@@ -161,25 +157,26 @@ var controller = {
   //Elimina un documento de una encuesta
   eliminarEncuesta: function(req, res) {
     let periodo = req.params.idEncuesta;
-    console.log(periodo);
+    console.log("eliminarEncuesta periodo", periodo);
 
     //Borrar todas las encuestas resueltas asosciadas a esta encuesta
     Encuesta.findOne({ periodo: periodo }, { encuestasResueltas: 1, _id: 0 }).exec((err, idsEncRes) => {
       if (err)
         return res.status(500).send({ message: "! Error en la base de datos !" });
-      console.log(idsEncRes);
+      console.log("idsEncRes", idsEncRes);
       //Hay encuestas resueltas para eliminar
       if (idsEncRes != null) {
         EncuestaResuelta.deleteMany({ _id: { $in: idsEncRes.encuestasResueltas } }).exec((err, result) => {
+          console.log("llego1");
           if (err)
             return res.status(500).send({ message: "! Error en la base de datos !" });
           if (result == null)
             return res.status(404).send({ message: "No se han encontrado las encuestas resueltas" });
-
         });
       }
       //Elimina la encuesta despues de haber eliminado todos las encuestas resueltas asociadas a la misma.
       Encuesta.findOneAndDelete({ periodo: periodo }).exec((err, encuesta) => {
+        console.log("llego2");
         if (err)
           return res.status(404).send({ message: 'Ha ocurrido un error' });
         if (encuesta == null)
@@ -188,7 +185,6 @@ var controller = {
           return res.status(200).send({ message: "Se ha eliminado la encuesta correctamente" })
 
       });
-
     });
   },
 
@@ -196,14 +192,20 @@ var controller = {
   editarEncuesta: function(req, res) {
     req.params.sendStatus = false;
     controller.eliminarEncuesta(req, res);
-    controller.crearEncuesta(req, res);
+//    console.log("llegoCrear");
+//    controller.crearEncuesta(req, res);
+//    console.log("salioCrear");
     return res.status(200).send({ message: "Se ha editado la encuesta correctamente" })
+  },
+
+
+  consultarEncuestaActiva: async function(req, res) {
+    const encuesta = (await Encuesta.findOne({ activo: true }));
+    if (!encuesta) {
+      return res.status(404).send({ activo: false, message: 'La encuesta no se encuentra activa' });
+    }
+    return res.status(200).send(encuesta);
   }
-  /**
-   * Eliminar encuesta borra toda la encuesta (con el arreglo de licenciaturas completo)
-   * o solo quita la licenciatura del array de licenciaturas de esa encuesta 
-   * 
-   */
 };
 
 

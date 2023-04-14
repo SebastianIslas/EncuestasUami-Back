@@ -33,6 +33,7 @@ router.get('/licenciaturas', PlanEstudiosCtrl.getLicenciaturas);
 var EncuestasCtrl = require('../controllers/encuestasCtrl');
 router.post('/encuesta/iniciar', EncuestasCtrl.iniciarEncuesta);
 router.patch('/encuesta/desactivar/:periodo', EncuestasCtrl.desactivarEncuesta);
+router.get('/encuesta/activa', EncuestasCtrl.consultarEncuestaActiva);
 router.get('/encuesta/:periodo', EncuestasCtrl.recuperarEncuesta);
 router.post('/encuesta', EncuestasCtrl.crearEncuesta);
 router.delete('/encuesta/:idEncuesta', EncuestasCtrl.eliminarEncuesta);
