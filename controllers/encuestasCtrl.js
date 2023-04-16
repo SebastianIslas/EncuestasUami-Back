@@ -139,16 +139,15 @@ var controller = {
       let encuesta = new Encuesta({ periodo: periodo, licenciatura: idsLic, maxMaterias: max_materias, activo: activo });
       encuesta.save((err, enc) => {
         if (err) {
-          return res.status(500).send({ message: "! Error en la base de datos !" });
+          return res.status(500).send({ message: "! Error en la base de datos ! 1" });
         }
         if (enc == null) {
           return res.status(404).send({
             message: "No se ha podido crear la encuesta.",
           });
-        } else if (req.params.sendStatus == undefined) {
+        } else {
           return res.status(200).send({ message: "La encuesta se ha creado de manera correcta" });
         }
-        
       });
     });
   },
@@ -162,14 +161,14 @@ var controller = {
     //Borrar todas las encuestas resueltas asosciadas a esta encuesta
     Encuesta.findOne({ periodo: periodo }, { encuestasResueltas: 1, _id: 0 }).exec((err, idsEncRes) => {
       if (err)
-        return res.status(500).send({ message: "! Error en la base de datos !" });
+        return res.status(500).send({ message: "! Error en la base de datos !2" });
       console.log("idsEncRes", idsEncRes);
       //Hay encuestas resueltas para eliminar
       if (idsEncRes != null) {
         EncuestaResuelta.deleteMany({ _id: { $in: idsEncRes.encuestasResueltas } }).exec((err, result) => {
           console.log("llego1");
           if (err)
-            return res.status(500).send({ message: "! Error en la base de datos !" });
+            return res.status(500).send({ message: "! Error en la base de datos !3" });
           if (result == null)
             return res.status(404).send({ message: "No se han encontrado las encuestas resueltas" });
         });
@@ -181,8 +180,7 @@ var controller = {
           return res.status(404).send({ message: 'Ha ocurrido un error' });
         if (encuesta == null)
           return res.status(404).send({ message: "No se ha encontrado la encuesta a borrar" })
-        if (req.params.sendStatus == undefined)
-          return res.status(200).send({ message: "Se ha eliminado la encuesta correctamente" })
+        return res.status(200).send({ message: "Se ha eliminado la encuesta correctamente" })
 
       });
     });
@@ -190,15 +188,63 @@ var controller = {
 
 
   editarEncuesta: function(req, res) {
-    req.params.sendStatus = false;
-    controller.eliminarEncuesta(req, res);
-//    console.log("llegoCrear");
-//    controller.crearEncuesta(req, res);
-//    console.log("salioCrear");
-    return res.status(200).send({ message: "Se ha editado la encuesta correctamente" })
+
+    let periodo = req.params.idEncuesta;
+    let max_materias = req.body.max_materias;
+    let activo = req.body.activo;
+    let idsLic;
+    //Borrar todas las encuestas resueltas asosciadas a esta encuesta
+    Encuesta.findOne({ periodo: periodo }, { encuestasResueltas: 1, _id: 0 }).exec((err, idsEncRes) => {
+      if (err)
+        return res.status(500).send({ message: "! Error en la base de datos !2" });
+      console.log("idsEncRes", idsEncRes);
+      //Hay encuestas resueltas para eliminar
+      if (idsEncRes != null) {
+        EncuestaResuelta.deleteMany({ _id: { $in: idsEncRes.encuestasResueltas } }).exec((err, result) => {
+          console.log("llego1");
+          if (err)
+            return res.status(500).send({ message: "! Error en la base de datos !3" });
+          if (result == null)
+            return res.status(404).send({ message: "No se han encontrado las encuestas resueltas" });
+        });
+      }
+      //Elimina la encuesta despues de haber eliminado todos las encuestas resueltas asociadas a la misma.
+      Encuesta.findOneAndDelete({ periodo: periodo }).exec((err, encuesta) => {
+        console.log("llego2");
+        if (err)
+          return res.status(404).send({ message: 'Ha ocurrido un error' });
+        if (encuesta == null)
+          return res.status(404).send({ message: "No se ha encontrado la encuesta a borrar" })  
+          
+        //////////////////////////////// CREAR ENCUESTA
+        Licenciatura.find({}, { _id: 1 }).exec((err, lics) => {
+          idsLic = lics;
+          if (lics.length == 0)
+            return res.status(404).send({ message: "Licenciaturas no encontradas" });
+    
+          let encuesta = new Encuesta({ periodo: periodo, licenciatura: idsLic, maxMaterias: max_materias, activo: activo });
+          encuesta.save((err, enc) => {
+            if (err) {
+              return res.status(500).send({ message: "! Error en la base de datos ! 1" });
+            }
+            if (enc == null) {
+              return res.status(404).send({
+                message: "No se ha podido crear la encuesta.",
+              });
+            } else {
+              return res.status(200).send({ message: "La encuesta se ha editado de manera correcta" });
+            }
+          });
+        });
+      });
+    });
+
+
+
+
+
   },
-
-
+  
   consultarEncuestaActiva: async function(req, res) {
     const encuesta = (await Encuesta.findOne({ activo: true }));
     if (!encuesta) {
