@@ -188,8 +188,8 @@ var controller = {
 
 
   editarEncuesta: function(req, res) {
-
-    let periodo = req.params.idEncuesta;
+    let periodo = req.params.idEncuesta;  //De la encuesta actual
+    let newPeriodo = req.body.periodo; //Nuevo periodo de la encuesta
     let max_materias = req.body.max_materias;
     let activo = req.body.activo;
     let idsLic;
@@ -222,7 +222,7 @@ var controller = {
           if (lics.length == 0)
             return res.status(404).send({ message: "Licenciaturas no encontradas" });
     
-          let encuesta = new Encuesta({ periodo: periodo, licenciatura: idsLic, maxMaterias: max_materias, activo: activo });
+          let encuesta = new Encuesta({ periodo: newPeriodo, licenciatura: idsLic, maxMaterias: max_materias, activo: activo });
           encuesta.save((err, enc) => {
             if (err) {
               return res.status(500).send({ message: "! Error en la base de datos ! 1" });

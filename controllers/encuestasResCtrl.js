@@ -162,6 +162,7 @@ var controller = {
     let matricula = req.body.matricula;
     let periodo = req.body.encuesta;
     let cursos = req.body.cursosSeleccionados;
+    console.log('Guardar', matricula, periodo, cursos);
 
     let cursosClave = cursos.map(c => c.claveUEA);
     let cursosId = (await Curso.find({ 'clave': { $in: cursosClave } }, { _id: 1 })).map(c => c._id);

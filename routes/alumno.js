@@ -18,8 +18,9 @@ router.get('/encuesta/:matricula/:id_licenciatura', AlumnoCtrl.obtenerEncuestAlu
 
 
 const EncuestasResCtrl = require('../controllers/encuestasResCtrl');
-router.post('/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia);
-router.post('/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
+//Creo esos eran de prueba antes de hacer el de guardarEncuestaResuelta
+//router.post('/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.agregarEncuestaResVacia);
+//router.post('/:matricula/:id_licenciatura/encuestaResuelta', EncuestasResCtrl.recibirEncuestaResuelta);
 router.post('/encuestaResuelta', EncuestasResCtrl.guardarEncuestaResuelta);
 router.get('/ultimaEncuestaRes/:periodo/:matricula', EncuestasResCtrl.consultarUltimaEncuestaRes);
 router.get('/encuestasRes/:matricula', EncuestasResCtrl.consultarEncuestasRes);

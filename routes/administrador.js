@@ -41,7 +41,6 @@ router.put('/encuesta/:idEncuesta', EncuestasCtrl.editarEncuesta);
 router.get('/encuesta/activaLic/:claveLic', EncuestasCtrl.consultarCursosEncuestaActivaLic);
 router.get('/encuesta/desactivada/:periodo', EncuestasCtrl.consultarEncuestaDesactivadaPeriodo);
 
-
 var ProfesorCtrl = require('../controllers/profesorCtrl');
 router.post('/profesor/crearProfesor', ProfesorCtrl.crearProfesor);
 router.delete('/profesor/eliminarProfesor/:claveEmpleado', ProfesorCtrl.eliminarProfesor);
