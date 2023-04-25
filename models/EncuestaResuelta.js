@@ -23,7 +23,6 @@ const EncuestaResueltaSchema = Schema({
           type: Schema.Types.ObjectId,
           ref: 'Curso'
         },
-
         modalidad: {
           type: String,
           enum: ['Presencial', 'Virtual', 'Mixta'],
@@ -34,6 +33,10 @@ const EncuestaResueltaSchema = Schema({
           type: String,
           enum: ['Mañana', 'Tarde', 'Noche'],
           default: 'Mañana'
+        },
+        profesor: {
+          type: Schema.Types.ObjectId,
+          ref: 'Profesor'
         },
       }
     ]

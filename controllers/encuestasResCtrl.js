@@ -7,6 +7,7 @@ const Encuesta = require("../models/Encuesta");
 const EncuestaResuelta = require("../models/EncuestaResuelta");
 const Licenciatura = require("../models/Licenciatura");
 const Curso = require("../models/Curso")
+const Profesor = require("../models/Profesor");
 
 
 var controller = {
@@ -128,7 +129,10 @@ var controller = {
       alumno: idAlumno,
       encuesta: idEncuesta
     };
-    EncuestaResuelta.findOne(query).populate({ path: 'cursosSeleccionados', select: 'curso' }).exec((err, result) => {
+    EncuestaResuelta.findOne(query)
+    .populate({ path: 'cursosSeleccionados.curso', select: 'nombre' })
+    .populate({ path: 'cursosSeleccionados.profesor', select: 'nombre' })
+    .exec((err, result) => {
       if (!result)
         return res.status(404).send({ message: ' ! El alumno no ha contestado la encuesta ! ' });
       if (err)
@@ -164,12 +168,33 @@ var controller = {
     let cursos = req.body.cursosSeleccionados;
     console.log('Guardar', matricula, periodo, cursos);
 
-    let cursosClave = cursos.map(c => c.claveUEA);
-    let cursosId = (await Curso.find({ 'clave': { $in: cursosClave } }, { _id: 1 })).map(c => c._id);
 
+    let cursosClave = cursos.map(c => c.curso);
+    let cursosId = (await Curso.find({ 'clave': { $in: cursosClave } }, { _id: 1 })).map(c => c._id);
+    console.log('cursosClave, cursosId', cursosClave, cursosId);
     //Validar que todos los cursos seleccionados existan en la base de datos
     if (cursosId.length != cursosClave.length)
       return res.status(404).send({ message: "Algun curso seleccionado es invalido o esta duplicado" });
+   
+
+    let profesoresClave = cursos.map(c => c.profesor);
+    let profesoresId = (await Profesor.find({ 'claveEmpleado': { $in: profesoresClave } }, { _id: 1 })).map(c =>c._id);
+    let indexProfDb = 0; 
+    // Mapear los profesoresClave a los IDs correspondientes o una cadena vacía si no hay ID de prof a seleccionar (curso sin profes)
+    const profesoresIdList = profesoresClave.map((clave, index) => {
+//      console.log("clave", clave, index, indexProfDb);
+      if (!clave) {
+        return null;
+      }
+      const profesorId = profesoresId[indexProfDb];
+      indexProfDb++;
+      return profesorId;
+    });
+    console.log("profesoresIdList", profesoresIdList);
+    //Validar que todos los profesores seleccionados existan en la base de datos
+    if (profesoresIdList.length != profesoresClave.length)
+      return res.status(404).send({ message: "Algun profesor seleccionado es invalido o esta duplicado" });
+
 
     let idEncuesta = (await Encuesta.findOne({ periodo: periodo }));
     if (!idEncuesta)
@@ -183,9 +208,12 @@ var controller = {
     if (!idAlumno)
       return res.status(404).send({ message: "No se ha encontrado el alumno" });
 
+
     for (i = 0; i < cursos.length; i++) {
-      cursos[i].claveUEA = cursosId[i]
+      cursos[i].curso = cursosId[i]
+      cursos[i].profesor = profesoresIdList[i]
     }
+    console.log("cursosAEncRes: ", cursos);
 
     let encuestaResuelta = new EncuestaResuelta({ alumno: idAlumno._id, encuesta: idEncuesta._id, cursosSeleccionados: cursos })
 
@@ -207,6 +235,7 @@ var controller = {
 
       }
     });
+    
   }
 };
 
