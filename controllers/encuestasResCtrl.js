@@ -130,7 +130,7 @@ var controller = {
       encuesta: idEncuesta
     };
     EncuestaResuelta.findOne(query)
-    .populate({ path: 'cursosSeleccionados.curso', select: 'nombre' })
+    .populate({ path: 'cursosSeleccionados.curso', select: 'nombre clave' })
     .populate({ path: 'cursosSeleccionados.profesor', select: 'nombre' })
     .exec((err, result) => {
       if (!result)
