@@ -171,26 +171,27 @@ var controller = {
 
     let cursosClave = cursos.map(c => c.curso);
     let cursosId = (await Curso.find({ 'clave': { $in: cursosClave } }, { _id: 1 })).map(c => c._id);
-    console.log('cursosClave, cursosId', cursosClave, cursosId);
+//    console.log('cursosClave, cursosId', cursosClave, cursosId);
     //Validar que todos los cursos seleccionados existan en la base de datos
     if (cursosId.length != cursosClave.length)
       return res.status(404).send({ message: "Algun curso seleccionado es invalido o esta duplicado" });
    
 
     let profesoresClave = cursos.map(c => c.profesor);
-    let profesoresId = (await Profesor.find({ 'claveEmpleado': { $in: profesoresClave } }, { _id: 1 })).map(c =>c._id);
-    let indexProfDb = 0; 
+    let profesoresId = (await Profesor.find({ 'claveEmpleado': { $in: profesoresClave } }, { _id: 1, claveEmpleado: 1 }));
+
+    profesoresId = profesoresClave.map(clave => profesoresId.find(id => id.claveEmpleado == clave));
+
     // Mapear los profesoresClave a los IDs correspondientes o una cadena vacía si no hay ID de prof a seleccionar (curso sin profes)
     const profesoresIdList = profesoresClave.map((clave, index) => {
-//      console.log("clave", clave, index, indexProfDb);
+   //   console.log("clave", clave, index);
       if (!clave) {
         return null;
       }
-      const profesorId = profesoresId[indexProfDb];
-      indexProfDb++;
+      const profesorId = profesoresId[index];
       return profesorId;
     });
-    console.log("profesoresIdList", profesoresIdList);
+//    console.log("profesoresIdList", profesoresIdList);
     //Validar que todos los profesores seleccionados existan en la base de datos
     if (profesoresIdList.length != profesoresClave.length)
       return res.status(404).send({ message: "Algun profesor seleccionado es invalido o esta duplicado" });
@@ -215,6 +216,8 @@ var controller = {
     }
     console.log("cursosAEncRes: ", cursos);
 
+
+
     let encuestaResuelta = new EncuestaResuelta({ alumno: idAlumno._id, encuesta: idEncuesta._id, cursosSeleccionados: cursos })
 
     encuestaResuelta.save((err, encR) => {
@@ -235,7 +238,6 @@ var controller = {
 
       }
     });
-    
   }
 };
 
