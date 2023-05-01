@@ -33,6 +33,29 @@ var controller = {
     });
   },
 
+  //Get todas las encuestas resueltas por lic
+  getEncuestasRes: async function(req, res) {
+    const periodo = req.params.periodo
+    const claveLic = req.params.claveLic
+
+    let idLic = (await Licenciatura.findOne({ clave: claveLic }))._id;
+    console.log(idLic, claveLic)
+    let idEncuesta = (await Encuesta.findOne({periodo: periodo}))._id;
+
+    //Encuestas de ese periodo y de esa licenciatura
+    EncuestaResuelta.find({encuesta: idEncuesta })
+    .populate({ path: 'alumno', match: { 'carrera': idLic }, select: 'carrera'})
+    .populate({ path: 'cursosSeleccionados.curso', select: 'nombre clave' })
+    .populate({ path: 'cursosSeleccionados.profesor', select: 'nombre claveEmpleado' })
+    .exec((err, result) => {
+      if (err)
+        return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+      if (!result) {
+        return res.status(404).send({ message: 'La encuesta no existe.' });
+      }
+      return res.status(200).send(result);
+    });
+  },
 
   agregarEncuestaResVacia: async function(req, res) {
     const matricula = req.body.matricula

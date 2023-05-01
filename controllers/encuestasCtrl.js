@@ -8,6 +8,19 @@ const Encuesta = require("../models/Encuesta");
 const EncuestaResuelta = require("../models/EncuestaResuelta");
 
 var controller = {
+  getEncuestas: async function(req, res) {
+    Encuesta.find()
+    .populate({ path: 'licenciatura', select: 'nombre clave' })
+    .sort({ "activo": -1, "periodo": -1 }).exec((err, encuestas) => {
+      if (err)
+        return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+      if (!encuestas) {
+        return res.status(404).send({ message: 'La encuesta no existe.' });
+      }
+      return res.status(200).send(encuestas);
+    });
+  },
+
   recuperarEncuesta: function(req, res) {
     const periodo = req.params.periodo
 
