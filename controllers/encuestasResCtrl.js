@@ -34,16 +34,17 @@ var controller = {
   },
 
   //Get todas las encuestas resueltas por lic
-  getEncuestasRes: async function(req, res) {
+  getEncuestasResEstadisticas: async function(req, res) {
     const periodo = req.params.periodo
     const claveLic = req.params.claveLic
 
     let idLic = (await Licenciatura.findOne({ clave: claveLic }))._id;
-    console.log(idLic, claveLic)
+
     let idEncuesta = (await Encuesta.findOne({periodo: periodo}))._id;
 
     //Encuestas de ese periodo y de esa licenciatura
-    EncuestaResuelta.find({encuesta: idEncuesta })
+    EncuestaResuelta
+    .find({encuesta: idEncuesta})
     .populate({ path: 'alumno', match: { 'carrera': idLic }, select: 'carrera'})
     .populate({ path: 'cursosSeleccionados.curso', select: 'nombre clave' })
     .populate({ path: 'cursosSeleccionados.profesor', select: 'nombre claveEmpleado' })
@@ -53,9 +54,53 @@ var controller = {
       if (!result) {
         return res.status(404).send({ message: 'La encuesta no existe.' });
       }
-      return res.status(200).send(result);
+      result = result.filter(encuesta => encuesta.alumno !== null); //Quitar encuestas que no sean de esa carrera
+
+      const estadisticas = {};
+      result.map((encuesta) => {
+        encuesta.cursosSeleccionados.forEach((cursoSeleccionado) => {
+          const cursoId = cursoSeleccionado.curso.clave;
+          const cursoNombre = cursoSeleccionado.curso.nombre;
+          const modalidad = cursoSeleccionado.modalidad;
+          const turno = cursoSeleccionado.turno;
+          const profesorId = cursoSeleccionado.profesor ? cursoSeleccionado.profesor.claveEmpleado : "SinOpc";
+          const profesorNombre = cursoSeleccionado.profesor ? cursoSeleccionado.profesor.nombre : "";
+      
+          if (!estadisticas[cursoId]) {
+            estadisticas[cursoId] = {
+              nombre: cursoNombre,
+              modalidades: {},
+              turnos: {},
+              profesores: {},
+            };
+          }
+      
+          const cursoStats = estadisticas[cursoId];
+      
+          if (!cursoStats.modalidades[modalidad]) {
+            cursoStats.modalidades[modalidad] = 0;
+          }
+          cursoStats.modalidades[modalidad]++;
+      
+          if (!cursoStats.turnos[turno]) {
+            cursoStats.turnos[turno] = 0;
+          }
+          cursoStats.turnos[turno]++;
+      
+          if (!cursoStats.profesores[profesorId]) {
+            cursoStats.profesores[profesorId] = {
+              votos: 0,
+              nombre: profesorNombre
+            }
+          }
+          cursoStats.profesores[profesorId].votos++;
+        });
+      });
+      console.log(estadisticas)
+      return res.status(200).send(estadisticas);
     });
   },
+
 
   agregarEncuestaResVacia: async function(req, res) {
     const matricula = req.body.matricula

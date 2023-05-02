@@ -12,7 +12,7 @@ var EncuestasCtrl = require('../controllers/encuestasCtrl');
 router.get('/encuestas', EncuestasCtrl.getEncuestas);
 
 const EncuestasResCtrl = require('../controllers/encuestasResCtrl');
-router.get('/encuestasRes/:periodo/:claveLic', EncuestasResCtrl.getEncuestasRes);
+router.get('/encuestasRes/:periodo/:claveLic', EncuestasResCtrl.getEncuestasResEstadisticas);
 
 module.exports = router;
 
