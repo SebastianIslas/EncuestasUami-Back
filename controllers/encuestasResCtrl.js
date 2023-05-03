@@ -68,7 +68,7 @@ var controller = {
           const modalidad = cursoSeleccionado.modalidad;
           const turno = cursoSeleccionado.turno;
           const profesorId = cursoSeleccionado.profesor ? cursoSeleccionado.profesor.claveEmpleado : "SinOpc";
-          const profesorNombre = cursoSeleccionado.profesor ? cursoSeleccionado.profesor.nombre : "";
+          const profesorNombre = cursoSeleccionado.profesor ? cursoSeleccionado.profesor.nombre : "Sin opciones";
       
           if (!estadisticas[cursoId]) {
             estadisticas[cursoId] = {
@@ -91,7 +91,7 @@ var controller = {
           const cursoStats = estadisticas[cursoId];
       
           cursoStats.modalidades[modalidad]++;
-          
+
           cursoStats.turnos[turno]++;
       
           if (!cursoStats.profesores[profesorId]) {
