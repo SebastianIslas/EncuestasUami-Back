@@ -54,8 +54,12 @@ var controller = {
       if (!result) {
         return res.status(404).send({ message: 'La encuesta no existe.' });
       }
+
+      //Hasta aqui regresa todas las encuestas resueltas filtradas por licenciatura
       result = result.filter(encuesta => encuesta.alumno !== null); //Quitar encuestas que no sean de esa carrera
 
+
+      //Desde aqui hace el conteo por curso de los votos
       const estadisticas = {};
       result.map((encuesta) => {
         encuesta.cursosSeleccionados.forEach((cursoSeleccionado) => {
@@ -69,22 +73,25 @@ var controller = {
           if (!estadisticas[cursoId]) {
             estadisticas[cursoId] = {
               nombre: cursoNombre,
-              modalidades: {},
-              turnos: {},
+              votos: 0,
+              modalidades: {
+                Presencial: 0,
+                Mixta: 0,
+                Virtual: 0
+              },
+              turnos: {
+                Mañana: 0,
+                Tarde: 0,
+                Noche: 0
+              },
               profesores: {},
             };
           }
       
           const cursoStats = estadisticas[cursoId];
       
-          if (!cursoStats.modalidades[modalidad]) {
-            cursoStats.modalidades[modalidad] = 0;
-          }
           cursoStats.modalidades[modalidad]++;
-      
-          if (!cursoStats.turnos[turno]) {
-            cursoStats.turnos[turno] = 0;
-          }
+          
           cursoStats.turnos[turno]++;
       
           if (!cursoStats.profesores[profesorId]) {
@@ -94,6 +101,8 @@ var controller = {
             }
           }
           cursoStats.profesores[profesorId].votos++;
+
+          cursoStats.votos++;
         });
       });
       console.log(estadisticas)
