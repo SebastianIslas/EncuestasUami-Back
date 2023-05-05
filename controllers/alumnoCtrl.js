@@ -33,7 +33,7 @@ var controller = {
     const password = req.body.password;
 
     var query = {
-      carrera//: req.body.claveLic 
+        clave: carrera
     };
 
     Licenciatura.findOne(query).populate('cursos').exec((err, result) => {
@@ -69,11 +69,18 @@ var controller = {
     const body = req.body;
     const password = body.password;
 
-    const alumno = await Alumno.findOne({ email: body.email });
+    const alumno = await Alumno.findOne({ email: body.email })
 
     // verificamos que exista el alumno
     if (!alumno) {
       return res.status(404).send({ message: "No se ha podido encontrar al alumno." });
+    }
+    
+    const lic = (await Licenciatura.findOne({_id: alumno.carrera}, {clave: 1, nombre: 1}))
+    lic.nombre = lic.nombre.replace('Licenciatura en ','')
+
+    if (!lic) {
+      return res.status(404).send({ message: "No se ha podido encontrar la licenciatura del alumno" });
     }
 
     const hashPassword = await alumno.get('password');
@@ -91,8 +98,8 @@ var controller = {
       expiresIn: process.env.JWT_TOKEN_EXPIRES_TIME
     });
 
-    // devolvemos el token con el mensaje 
-    return res.status(200).send({ message: "Ha ingresado correctamente.", token });
+    // devolvemos el token con el mensaje y los datos del usuario
+    return res.status(200).send({ message: "Ha ingresado correctamente.", token, matricula: alumno.matricula, licenciatura: lic.nombre, claveLic: lic.clave  });
   },
 
 
