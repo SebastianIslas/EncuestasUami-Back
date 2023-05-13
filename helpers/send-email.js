@@ -28,8 +28,33 @@ function sendEmailRecuperacionAlumno(destination, codigoRecuperacion) {
   transporter.sendMail(message);
 }
 
+function sendEmailVerificacionAlumno(destination, matricula, token) {
+  var message = {
+    from: process.env.SMTP_SENDER,
+    to: destination,
+    subject: "Confirmacion de creacion de cuenta",
+    text: `Hola, Alumno ${matricula}:\nAccede al siguiente link para cofirmar la creacion de tu cuenta para EncuestasUami http://${process.env.APP_URL}:4000/api/encuestas/v1/alumno/valida?token=${token}`,
+    html: `<p>Hola, Alumno ${matricula}:</p><p>Da click para confirmar la creacion de tu cuenta para EncuestasUami <a href="http://${process.env.APP_URL}:4000/api/encuestas/v1/alumno/valida?token=${token}">Verificame!</a></p>`
+  };
+
+  transporter.sendMail(message);
+}
+
+function sendEmailNotificacionAlumno(destination, matricula) {
+  var message = {
+    from: process.env.SMTP_SENDER,
+    to: destination,
+    subject: "Notificacion de la creacion de tu cuenta en encuestas UAMI",
+    text: `Hola, Alumno ${matricula}, gracias por crear una cuenta en encuestas UAMI`,
+    html: `<p>Hola, Alumno ${matricula}, gracias por crear una cuenta en encuestas UAMI</p>`
+  };
+
+  transporter.sendMail(message);
+}
 
 module.exports = {
-  sendEmailRecuperacionAlumno
+  sendEmailRecuperacionAlumno,
+  sendEmailVerificacionAlumno,
+  sendEmailNotificacionAlumno
 }
 

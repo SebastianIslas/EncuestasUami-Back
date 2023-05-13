@@ -4,9 +4,11 @@ const jwt = require('jsonwebtoken');
 
 const Licenciatura = require("../models/Licenciatura");
 const Alumno = require("../models/Alumno");
+const CreacionCuenta = require("../models/CreacionCuenta");
 const RecuperacionPassword = require("../models/RecuperacionPassword");
 
 const emailService = require("../helpers/send-email");
+const {encrypt, decrypt} = require("../helpers/crypt")
 
 var controller = {
   recuperarAlumno: function(req, res) {
@@ -61,6 +63,99 @@ var controller = {
         }
       });
     });
+  },
+
+  crearAlumnoConConfirmacion: function(req, res) {
+    const matricula = req.body.matricula;
+    const carrera = req.body.clave_lic;
+    const email = req.body.email;
+    const password = req.body.password;
+
+    var query = {
+        clave: carrera
+    };
+
+    Licenciatura.findOne(query).populate('cursos').exec((err, resultL) => {
+      if (err)
+        return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+      if (!resultL) {
+        return res.status(404).send({ message: 'La licenciatura no existe, no se pudo realizar el registro.' });
+      }
+
+      const salt = bcrypt.genSaltSync();
+      const passwordEncrypt = bcrypt.hashSync(password, salt);
+
+      // Encriptamos la informacion para token
+      const emailEncryp = encrypt(email)
+
+      // creamos el token
+      const token = jwt.sign({
+        data: emailEncryp
+      }, process.env.SECRET_JWT_SEED, {
+        expiresIn: '15m'
+      });
+
+      var query = { email: email},
+          update = { matricula: matricula, carrera: resultL._id, email: email, password: passwordEncrypt, token: token },
+          options = { upsert: true };
+      Alumno.find({$or: [{matricula: matricula},{email: email}]}, (err, alms) =>{
+        if (alms.length){
+          return res.status(404).send({ message: "Ya existe un alumno con esos datos" });
+        }
+        else{
+          CreacionCuenta.findOneAndUpdate(query, update, options, function(error, result) {
+            if (!error) {
+              emailService.sendEmailVerificacionAlumno(email, matricula, token)
+              return res.status(201).send({ message: "El email ha enviado de manera correcta."});
+            }else{
+              return res.status(404).send({ message: "No se ha podido enviar el email." });
+            }
+          });
+        }
+      })
+    });
+  },
+
+  confirmarEmail: function(req, res) {
+      const token = req.query.token 
+      try {
+        var decoded = jwt.verify(token, process.env.SECRET_JWT_SEED);
+        const email = decrypt(decoded.data)
+        CreacionCuenta.findOne({email}).exec((err, result) => {
+            if (err)
+              return res.status(500).send({ message: ' ! Error en la base de datos ! ' });
+            if (!result) {
+              return res.status(404).send({ message: 'La licenciatura no existe, no se pudo realizar el registro.' });
+            }
+            if(token === result.token){
+              let alumno = new Alumno({ matricula: result.matricula, carrera: result.carrera, email: result.email, password: result.password });
+
+              alumno.save((err, alm) => {
+                if (err) {
+                  console.log(err);
+                  return res.status(500).send({ message: "! Error en la base de datos !", errorContent: err });
+                }
+        
+                if (alm == null) {
+                  return res.status(404).send({ message: "No se ha podido agregrar el alumno." });
+                } else {
+                  emailService.sendEmailNotificacionAlumno(email, alm.matricula)
+                  CreacionCuenta.findByIdAndDelete(result._id, function (err, docs) {
+                    return res.status(201).send({ message: "El alumno ha sido creado de manera correcta" });
+                  });
+                }
+              });
+            }else{
+              return res.status(500).send({ message: "El token es invalido" });
+            }
+
+        })
+      } catch(err) {
+        if(err.name === 'TokenExpiredError')
+          return res.status(418).send({ message: "El token ya expiró" });
+        else
+          return res.status(404).send({ message: "Token invalido" });
+      }
   },
 
 
