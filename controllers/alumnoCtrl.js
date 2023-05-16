@@ -291,6 +291,7 @@ var controller = {
       // Enviar el correo
       try {
         emailService.sendEmailRecuperacionAlumno(alumno.email, codigoRecuperacion);
+        console.log("Codigo: " + codigoRecuperacion);
         res.status(200).send(true);
       } catch (error) {
         console.error("Error con nodemailer al enviar correo a " + alumno.email);
